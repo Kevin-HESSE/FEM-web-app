@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('build/images/favicon-32x32.png') }}">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body class="container-auth">
+    <img src="{{ asset('build/images/logo.svg') }}" alt="Logo">
+    {% block form %}{% endblock %}
+</body>
+</html>

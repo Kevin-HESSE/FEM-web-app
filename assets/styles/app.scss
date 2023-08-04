@@ -1,0 +1,142 @@
+@use "form";
+@use "panel";
+@import "var";
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap');
+
+* , *::before, *::after{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: $main-background;
+    height: 100vh;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    color: $content-color;
+}
+
+img{
+    max-width: 100%;
+}
+
+button, input{
+    border: 0;
+    background-color: transparent;
+}
+
+.container{
+    @media (min-width: $desktop-breakpoint) {
+        display: grid;
+        grid-template-columns: 96px 1fr;
+        grid-template-rows: 1fr;
+        column-gap: 2rem;
+
+        padding: 2rem;
+    }
+
+    &-auth{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 4fr;
+        align-items: center;
+        justify-items: center;
+
+        padding: 1.5rem;
+    }
+}
+
+.content{
+   padding: 1.5rem 1rem;
+
+    @media (min-width: $desktop-breakpoint) {
+        padding: 2rem 0;
+    }
+
+    & > :not(:last-child){
+        margin-bottom: 1.5rem;
+    }
+
+}
+.header{
+    background-color: $header-background;
+    display: grid;
+    justify-items: center;
+
+    @media (max-width: $desktop-breakpoint - 1px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        padding: 1rem;
+
+        align-items: center;
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: auto;
+    }
+
+    @media (min-width: $desktop-breakpoint) {
+
+        padding: 2rem 1.5rem;
+        border-radius: 20px;
+        width: 96px;
+
+        grid-template-rows: auto 1fr auto;
+        grid-template-columns: auto;
+        row-gap: 3rem;
+    }
+}
+
+.nav{
+    display: flex;
+    gap: 2rem;
+
+    @media (min-width: $desktop-breakpoint) {
+        align-items: center;
+        flex-direction: column;
+    }
+}
+
+.img-avatar{
+    width: 24px;
+
+    @media (min-width: 450px) and (max-width: $desktop-breakpoint - 1px) {
+        width: 32px;
+    }
+
+    @media (min-width: $desktop-breakpoint) {
+        width: 40px;
+    }
+}
+
+
+.nav__item{
+    //Equivalent to fill="#5A698F"
+    filter: invert(43%) sepia(37%) saturate(422%) hue-rotate(185deg) brightness(87%) contrast(89%);
+
+    &.is-active{
+        filter: panel.$filter-white
+    }
+
+    &:hover:not(.is-active){
+        filter: panel.$filter-red
+    }
+}
+
+.title{
+    font-weight: 300;
+
+    @media (max-width: $tablet-breakpoint - 1px) {
+        font-size: 1.25rem;
+    }
+
+    @media (min-width: $tablet-breakpoint) {
+        font-size: 2rem;
+    }
+}
+
+
+

@@ -1,0 +1,29 @@
+{{ component('titleSection', { content: title }) }}
+
+<section class="list {% if isTrending %}is-trending{% endif %}">
+    {% for video in videos %}
+        <div class="thumbnail">
+            <picture>
+                {% if isTrending %}
+                    <source media="(min-width: 765px)" srcset="{{ asset('build/images/thumbnails/' ~ video.slug ~ '/trending/large.jpg') }}" />
+                    <img class="thumbnail__image" src="{{ asset('build/images/thumbnails/' ~ video.slug ~ '/trending/small.jpg') }}" alt="{{ video.title }}">
+                {% else %}
+                    <source media="(min-width: 1200px)" srcset="{{ asset('build/images/thumbnails/' ~ video.slug ~ '/regular/large.jpg') }}" />
+                    <source media="(min-width: 765px)" srcset="{{ asset('build/images/thumbnails/' ~ video.slug ~ '/regular/medium.jpg') }}" />
+                    <img class="thumbnail__image" src="{{ asset('build/images/thumbnails/' ~ video.slug ~ '/regular/small.jpg') }}" alt="{{ video.title }}">
+                {% endif %}
+            </picture>
+
+            {{ component('bookmark', { isBookmarked: video.isBookmarked }) }}
+
+            <div class="thumbnail__description">
+                <p class="thumbnail__description-information">
+                    {{ video.releaseAt | format_date(pattern='YYYY') }}
+                    {{ component('category', { category : video.category })}}
+                    {{ video.rating.name }}
+                </p>
+                <p class="thumbnail__description-title">{{ video.title }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</section>
