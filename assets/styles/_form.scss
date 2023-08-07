@@ -12,22 +12,29 @@ input[type='email'], input[type='password']{
   border-bottom: 1px solid $secondary-color;
 
   padding: 0 1rem 1.2rem 1rem;
+}
 
+input[type='email']:focus + .form-auth__field-error{
+  display: none;
+}
+
+input[type='password']:not(:placeholder-shown) + .form-auth__field-error{
+  display: none;
 }
 
 input.empty:invalid {
   border-color: $theme-color;
   position: relative;
+}
 
-  & + span::before{
-    content: "Can't be empty";
-    position: absolute;
-    display: inline-block;
-    right: 0 + 1rem;
+.form-auth__field-error{
+  position: absolute;
+  display: inline-block;
+  right: 1rem;
+  text-align: end;
 
-    font-size: 0.8rem;
-    color: $theme-color;
-  }
+  font-size: 0.8rem;
+  color: $theme-color;
 }
 
 //Css section for search form
@@ -72,10 +79,6 @@ input[type='search']{
   @media (min-width: $tablet-breakpoint) {
     width: 400px;
     padding: 2rem;
-  }
-
-  & * {
-    width: 100%;
   }
 
   &__input > :not(:last-child), &__cta > :not(:last-child){

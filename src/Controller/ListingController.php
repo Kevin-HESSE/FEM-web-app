@@ -12,6 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ListingController extends AbstractController
 {
+    /**
+     * @var VideoRepository
+     */
     private VideoRepository $videoRepository;
 
     /**
@@ -22,10 +25,14 @@ class ListingController extends AbstractController
         $this->videoRepository = $videoRepository;
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/', name: 'app_homepage')]
     public function homepage(Request $request): Response
     {
-        if($request->isMethod('POST' && $request->request->get('filter') !== '')){
+        if($request->isMethod('POST') && $request->request->get('filter') !== ''){
             $searchTerm = $request->request->get('filter');
             $filteredResult = $this->videoRepository->findTitleByTerm($searchTerm);
             $textResult = 'Found ' . count($filteredResult). ' results for \''. $searchTerm. '\'';
@@ -45,6 +52,10 @@ class ListingController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[Route('bookmarks', name: 'app_listing_bookmark')]
     public function bookmark(Request $request): Response
     {
@@ -68,6 +79,13 @@ class ListingController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @param CategoryRepository $categoryRepository
+     * @param string $slug
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/category/{slug}', name: 'app_listing_categories')]
     public function categories(CategoryRepository $categoryRepository, string $slug, Request $request): Response
     {

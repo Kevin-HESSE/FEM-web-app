@@ -1,0 +1,4 @@
+<div class="form-auth__field">
+    <input type="{{ type }}" placeholder="{{ field_label(field) }}" name="{{ field_name(field) }}" id="{{ field_name(field) }}" {% if required %}required{% endif%} />
+    {{ form_errors(field) }}
+</div>

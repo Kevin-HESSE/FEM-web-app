@@ -7,38 +7,21 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-
-    <form action="{{ path(app.current_route) }}" method="post" class="form-auth" novalidate>
+    <form action="{{ path(app.current_route) }}" method="post" class="form-auth">
         <h1>Sign Up</h1>
-        {{ form_errors(registrationForm) }}
+
         <div class="form-auth__input" >
-            <div class="form-auth__field">
-                <input type="email" placeholder="Email address" name="{{ field_name(registrationForm.email) }}" id="{{ field_name(registrationForm.email) }}" value="{{ field_value(registrationForm.email) }}" required />
-            </div>
-            <div class="form-auth__field">
-                <input type="password" placeholder="{{ field_label(registrationForm.plainPassword) }}" name="{{ field_name(registrationForm.plainPassword) }}" id="{{ field_name(registrationForm.plainPassword) }}" required />
-{#              <span>{{ field_errors(registrationForm.plainPassword.error) }}</span>#}
-            </div>
-            <div class="form-auth__field">
-                <input type="password" placeholder="Repeat password" name="{{ field_name(registrationForm.confirmation) }}" id="{{ field_name(registrationForm.confirmation) }}" required />
-            </div>
-{#            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">#}
+            {{ component('inputField', { type: 'email', field: registrationForm.email}) }}
+
+            {% for password in registrationForm.plainPassword %}
+                {{ component('inputField', {type: 'password', field: password}) }}
+            {% endfor %}
+
+            {{ form_rest(registrationForm) }}
         </div>
         <div class="form-auth__cta">
             <button class="btn">Create an account</button>
             <p>Already have an account? <a class="nav-cta" href="{{ path('app_auth_login') }}">Login</a></p>
         </div>
     </form>
-
-{#    {{ form_start(registrationForm) }}#}
-{#        {{ form_errors(registrationForm) }}#}
-{#        {{ form_widget(registrationForm.email) }}#}
-{#        {{ form_widget(registrationForm.plainPassword) }}#}
-{#        <div class="form-auth__field">#}
-{#            <input type="password" placeholder="{{ field_label(registrationForm.plainPassword) }}" name="{{ field_name(registrationForm.plainPassword) }}" id="{{ field_name(registrationForm.plainPassword) }}" required />#}
-{#            <span>{{ field_errors(registrationForm.plainPassword.error) }}</span>#}
-{#        </div>#}
-{#        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">#}
-{#        <button type="submit" class="btn">Register</button>#}
-{#    {{ form_end(registrationForm) }}#}
 {% endblock %}

@@ -29,11 +29,6 @@ button, input{
 
 .container{
     @media (min-width: $desktop-breakpoint) {
-        display: grid;
-        grid-template-columns: 96px 1fr;
-        grid-template-rows: 1fr;
-        column-gap: 2rem;
-
         padding: 2rem;
     }
 
@@ -53,6 +48,7 @@ button, input{
 
     @media (min-width: $desktop-breakpoint) {
         padding: 2rem 0;
+        margin: 0 0 0 calc(96px + 3rem);
     }
 
     & > :not(:last-child){
@@ -64,9 +60,9 @@ button, input{
     background-color: $header-background;
     display: grid;
     justify-items: center;
+    position: fixed;
 
     @media (max-width: $desktop-breakpoint - 1px) {
-        position: fixed;
         top: 0;
         left: 0;
         z-index: 10;
@@ -79,10 +75,10 @@ button, input{
     }
 
     @media (min-width: $desktop-breakpoint) {
-
         padding: 2rem 1.5rem;
         border-radius: 20px;
         width: 96px;
+        height: calc(100% - 4rem);
 
         grid-template-rows: auto 1fr auto;
         grid-template-columns: auto;
