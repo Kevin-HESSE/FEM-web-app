@@ -42,7 +42,7 @@ class ListingController extends AbstractController
 
         if($request->isMethod('POST') && $request->request->get('filter') !== ''){
             $searchTerm = $request->request->get('filter');
-            $filteredResult = $this->videoRepository->findTitleByTerm($searchTerm);
+            $filteredResult = $this->videoRepository->findTitleByTerm($searchTerm, $user);
             $textResult = 'Found ' . count($filteredResult). ' results for \''. $searchTerm. '\'';
 
             return $this->render('listing/search.html.twig',[
@@ -52,8 +52,7 @@ class ListingController extends AbstractController
             ]);
         }
 
-        /** @var Video[] $videos */
-        $videos = $this->videoRepository->findAllVideoWithUserBookmarks($user->getId());
+        $videos = $this->videoRepository->findAllVideoWithUserBookmarks($user);
 
         return $this->render('listing/homepage.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',
@@ -68,9 +67,12 @@ class ListingController extends AbstractController
     #[Route('bookmarks', name: 'app_listing_bookmark')]
     public function bookmark(Request $request): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+
         if($request->isMethod('POST') && $request->request->get('filter') !== ''){
             $searchTerm = $request->request->get('filter');
-            $filteredResult = $this->videoRepository->findTitleByTerm($searchTerm, 'bookmarked');
+            $filteredResult = $this->videoRepository->findBookmarkTitleByTerm($searchTerm, $user);
             $textResult = 'Found ' . count($filteredResult). ' results for \''. $searchTerm. '\'';
 
             return $this->render('listing/search.html.twig',[
@@ -80,7 +82,7 @@ class ListingController extends AbstractController
             ]);
         }
 
-        $videos = $this->videoRepository->findBy(['isBookmarked' => true]);
+        $videos = $this->videoRepository->findAllBookmarkedVideoForUser($user);
 
         return $this->render('listing/bookmark.html.twig', [
             'formPlaceholder' => 'Search for bookmarked shows',
@@ -98,12 +100,15 @@ class ListingController extends AbstractController
     #[Route('/category/{slug}', name: 'app_listing_categories')]
     public function categories(CategoryRepository $categoryRepository, string $slug, Request $request): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+
         /** @type Category $category */
         $category = $categoryRepository->findOneBy(['slug' => $slug]);
 
         if($request->isMethod('POST') && $request->request->get('filter') !== ''){
             $searchTerm = $request->request->get('filter');
-            $filteredResult = $this->videoRepository->findTitleByTermAndCategory($searchTerm, $category->getId());
+            $filteredResult = $this->videoRepository->findTitleByTermAndCategory($searchTerm, $category);
             $textResult = 'Found ' . count($filteredResult). ' results for \''. $searchTerm. '\'';
 
             return $this->render('listing/search.html.twig',[
@@ -116,7 +121,7 @@ class ListingController extends AbstractController
 
         $formPlaceholder = 'Search for '. strtolower($category->getName());
 
-        $videos = $this->videoRepository->findBy(['category' => $category->getId()]);
+        $videos = $this->videoRepository->findAllVideosWithUserBookmarksByCategory($user, $category);
 
         return $this->render('listing/categories.html.twig', [
             'formPlaceholder' => $formPlaceholder,
