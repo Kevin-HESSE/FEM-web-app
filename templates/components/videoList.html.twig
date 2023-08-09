@@ -2,6 +2,7 @@
 
 <section class="list {% if isTrending %}is-trending{% endif %}">
     {% for video in videos %}
+
         <div class="thumbnail">
             <picture>
                 {% if isTrending %}
@@ -14,7 +15,7 @@
                 {% endif %}
             </picture>
 
-            {{ component('bookmark', { isBookmarked: video.isBookmarked }) }}
+            {{ component('bookmark', { isBookmarked: video.isBookmarked}) }}
 
             <div class="thumbnail__description">
                 <p class="thumbnail__description-information">

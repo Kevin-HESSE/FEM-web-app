@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Video;
+use App\Model\VideoInformation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,6 +22,28 @@ class VideoRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Video::class);
+    }
+
+
+    /**
+     * @param int $userId
+     * @return Video[]
+     */
+    public function findAllVideoWithUserBookmarks(int $userId): array
+    {
+        return $this->createQueryBuilder('video')
+            ->select('video')
+            ->addSelect('rating')
+            ->addSelect('category')
+            ->join('video.rating', 'rating')
+            ->join('video.category', 'category')
+            ->leftJoin('video.users', 'users')
+            ->where('users.id = :userId')
+            ->setParameter('userId', $userId)
+            ->orWhere('users.id IS NULL')
+            ->orderBy('video.id')
+            ->getQuery()
+            ->getResult();
     }
 
     public function findTitleByTerm(string $term, ?string $filter = null): array

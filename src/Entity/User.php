@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -35,7 +37,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private bool $isVerified = false;
+
+    #[ORM\ManyToMany(targetEntity: Video::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_video')]
+    private Collection $bookmark;
+
+    public function __construct()
+    {
+        $this->bookmark = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,6 +138,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Video>
+     */
+    public function getBookmark(): Collection
+    {
+        return $this->bookmark;
+    }
+
+    public function addBookmark(Video $bookmark): static
+    {
+        if (!$this->bookmark->contains($bookmark)) {
+            $this->bookmark->add($bookmark);
+        }
+
+        return $this;
+    }
+
+    public function removeBookmark(Video $bookmark): static
+    {
+        $this->bookmark->removeElement($bookmark);
 
         return $this;
     }

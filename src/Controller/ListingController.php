@@ -3,13 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\User;
+use App\Entity\Video;
+use App\Model\VideoInformation;
 use App\Repository\CategoryRepository;
 use App\Repository\VideoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('IS_AUTHENTICATED', statusCode: 403)]
 class ListingController extends AbstractController
 {
     /**
@@ -32,6 +37,9 @@ class ListingController extends AbstractController
     #[Route('/', name: 'app_homepage')]
     public function homepage(Request $request): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+
         if($request->isMethod('POST') && $request->request->get('filter') !== ''){
             $searchTerm = $request->request->get('filter');
             $filteredResult = $this->videoRepository->findTitleByTerm($searchTerm);
@@ -44,7 +52,8 @@ class ListingController extends AbstractController
             ]);
         }
 
-        $videos = $this->videoRepository->findBy(['isTrending' => false]);
+        /** @var Video[] $videos */
+        $videos = $this->videoRepository->findAllVideoWithUserBookmarks($user->getId());
 
         return $this->render('listing/homepage.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',
