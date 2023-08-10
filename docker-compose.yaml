@@ -15,7 +15,6 @@ services:
       - "80:8000"
     links:
       - database
-      - mailer
     depends_on:
       - database
   node:
@@ -33,16 +32,11 @@ services:
       POSTGRES_PASSWORD: ${PG_PASSWORD}
       POSTGRES_USER: ${PG_USER}
       POSTGRES_DB: ${PG_DATABASE}
+    container_name: web_app_database
     volumes:
       - pg_data:/var/lib/postgresql
     expose:
       - "5432"
-  mailer:
-    image: schickling/mailcatcher
-    expose:
-      - 1025
-      - 1080
-    ports: ["5080:1080"]
 
 volumes:
   pg_data:

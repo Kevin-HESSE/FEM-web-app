@@ -126,7 +126,8 @@ class ListingController extends AbstractController
         return $this->render('listing/categories.html.twig', [
             'formPlaceholder' => $formPlaceholder,
             'videos' => $videos,
-            'slug' => $slug
+            'slug' => $slug,
+            'title' => $category->getName()
         ]);
     }
 }

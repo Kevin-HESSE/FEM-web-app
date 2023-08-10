@@ -108,13 +108,27 @@
   justify-content: center;
   align-items: center;
 
+  cursor: pointer;
+
+  stroke-width: 2px;
+
+  &.is-active{
+    fill: $content-color;
+  }
+
   &:not(.is-active){
     stroke: $content-color;
+    fill: none;
   }
 
   &:hover:not(.is-active){
+    fill: $content-color;
     background-color: $content-color;
     stroke: $main-background;
+  }
+
+  & > * {
+    pointer-events: none;
   }
 }
 

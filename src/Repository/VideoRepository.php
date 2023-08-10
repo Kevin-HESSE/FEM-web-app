@@ -5,9 +5,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use App\Entity\User;
 use App\Entity\Video;
-use App\Model\VideoInformation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
