@@ -134,5 +134,27 @@ button, input{
     }
 }
 
+.message{
+    align-self: start;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+
+    background-color: $header-background;
+    border-radius: 20px;
+
+    @media (max-width: $tablet-breakpoint - 1px) {
+        padding: 1.5rem;
+        width: 100%;
+    }
+
+    @media (min-width: $tablet-breakpoint) {
+        width: 600px;
+        padding: 2rem;
+    }
+}
+
 
 

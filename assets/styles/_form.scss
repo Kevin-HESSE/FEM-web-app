@@ -81,7 +81,7 @@ input[type='search']{
     padding: 2rem;
   }
 
-  &__input > :not(:last-child), &__cta > :not(:last-child){
+  &__input > .form-auth__field:not(:last-of-type), &__cta > :not(:last-child){
     margin-bottom: 1.5rem;
   }
 
@@ -92,6 +92,7 @@ input[type='search']{
   &__field{
     position: relative;
   }
+
 }
 
 .btn{

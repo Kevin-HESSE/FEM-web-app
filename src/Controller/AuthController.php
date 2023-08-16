@@ -19,7 +19,7 @@ class AuthController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('authentication/login.html.twig', [
+        return $this->render('account/authentication/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error
         ]);
@@ -27,7 +27,5 @@ class AuthController extends AbstractController
 
     #[Route('/logout', name: 'app_auth_logout')]
     public function logOut(): never
-    {
-        //TODO
-    }
+    {}
 }

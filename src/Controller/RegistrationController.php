@@ -60,13 +60,13 @@ class RegistrationController extends AbstractController
                     ->from(new Address('admin@webapp.io', 'Movie web app bot'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('account/registration/confirmation_email.html.twig')
             );
 
             return $this->redirectToRoute('app_homepage');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('account/registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }

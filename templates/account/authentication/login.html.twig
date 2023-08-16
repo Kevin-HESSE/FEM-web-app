@@ -1,8 +1,8 @@
-{% extends 'authentication/base.html.twig' %}
+{% extends 'account/base.html.twig' %}
 
 {% block title %}Login{% endblock %}
 
-{% block form %}
+{% block body %}
 
     <form action="{{ path(app.current_route) }}" method="post" class="form-auth">
         <h1>Login</h1>
@@ -22,6 +22,7 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         </div>
         <div class="form-auth__cta">
+            <p><a class="nav-cta" href="{{ path('app_forgot_password_request') }}">Lost your password ?</a></p>
             <button class="btn">Login to your account</button>
             <p>Don't have an account? <a class="nav-cta" href="{{ path('app_register') }}">Sign Up</a></p>
         </div>
