@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    {{ parent() }} - Homepage
+{% endblock %}
+
 {% block body %}
     {{ component('videoList', { title: 'Trending', isTrending: true}) }}
 
     {{ component('videoList', { title: 'Recommanded for you', videos}) }}
+    
 {% endblock %}

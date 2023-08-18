@@ -4,9 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+        <title>{% block title %}Entertainment web app{% endblock %}</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('build/images/favicon-32x32.png') }}">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -42,10 +41,20 @@
                     description: 'Bookmark',
                 }) }}
             </nav>
-            <img class="img-avatar" src="{{ asset('build/images/image-avatar.png') }}" alt="Avatar">
+            <div class="nav">
+                {{ component('navLink', {
+                    route: 'app_auth_logout',
+                    image: asset('build/images/icon-logout.svg'),
+                    description: 'Log out'
+                }) }}
+                <img class="img-avatar" src="{{ asset('build/images/image-avatar.png') }}" alt="Avatar">
+            </div>
+
         </header>
 
         <main class="content">
+
+
             {% block search %}
                 <form action="{{ path(app.current_route) }}" method="post" class="form-filter">
                     <button type="submit"><img src="{{ asset('build/images/icon-search.svg') }}" alt="Search"></button>

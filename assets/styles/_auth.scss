@@ -1,0 +1,29 @@
+@import "var";
+
+.auth{
+  align-self: start;
+
+  @media (max-width: $tablet-breakpoint - 1px) {
+    width: 100%;
+  }
+}
+
+.alert{
+  margin-bottom: 1rem;
+
+  border-radius: 10px;
+
+  @media (max-width: $tablet-breakpoint - 1px) {
+    padding: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: $tablet-breakpoint) {
+    width: 400px;
+    padding: 2rem;
+  }
+
+  &.is-success{
+    background-color: $success-color;
+  }
+}

@@ -111,6 +111,7 @@
   cursor: pointer;
 
   stroke-width: 2px;
+  transition: background-color 250ms;
 
   &.is-active{
     fill: $content-color;
@@ -125,6 +126,7 @@
     fill: $content-color;
     background-color: $content-color;
     stroke: $main-background;
+    transition: background-color 250ms;
   }
 
   & > * {

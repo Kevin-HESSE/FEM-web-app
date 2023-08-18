@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    {{ parent() }} - Bookmarks
+{% endblock %}
+
 {% block body %}
     {{ component('videoList', { title: 'Bookmarked', videos}) }}
 {% endblock %}

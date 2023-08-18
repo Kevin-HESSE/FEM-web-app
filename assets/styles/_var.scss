@@ -5,8 +5,10 @@ $theme-color: rgba(252, 71, 71, 1);
 $secondary-color: rgba(90, 105, 143, 1);
 $secondary-color-low-opacity: rgba(90, 105, 143, 0.6);
 
-$filter-red: invert(49%) sepia(67%) saturate(5840%) hue-rotate(337deg) brightness(101%) contrast(97%);;
-$filter-white: invert(100%) sepia(100%) saturate(0%) hue-rotate(125deg) brightness(103%) contrast(103%);;
+$filter-red: invert(49%) sepia(67%) saturate(5840%) hue-rotate(337deg) brightness(101%) contrast(97%);
+$filter-white: invert(100%) sepia(100%) saturate(0%) hue-rotate(125deg) brightness(103%) contrast(103%);
+
+$success-color: rgb(0, 176, 8);
 
 $desktop-breakpoint: 1200px;
 $tablet-breakpoint: 765px;

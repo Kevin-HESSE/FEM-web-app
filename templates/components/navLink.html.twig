@@ -1,6 +1,6 @@
 {% set param = app.current_route_parameters ? app.current_route_parameters.slug : app.current_route %}
 {% set url = slug ? path(route, { slug }) : path(route) %}
 
-<a href="{{ url }}" class="nav__item {% if route is same as param %}is-active{% endif %}">
+<a href="{{ url }}" class="nav__item {% if route is same as param or param is same as slug %}is-active{% endif %}">
     <img src="{{ image }}" alt="{{ description }}">
 </a>

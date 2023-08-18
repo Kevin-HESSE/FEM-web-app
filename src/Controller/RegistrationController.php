@@ -63,6 +63,8 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('account/registration/confirmation_email.html.twig')
             );
 
+            $this->addFlash('check-email', 'Don\'t forget to verify your email address with the mail we send you !');
+
             return $this->redirectToRoute('app_homepage');
         }
 

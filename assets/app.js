@@ -35,6 +35,10 @@ const app = {
                     isBookmarked = !isBookmarked;
                     event.target.dataset.filmBookmark = isBookmarked;
                     isBookmarked ? event.target.classList.add('is-active') : event.target.classList.remove('is-active');
+
+                    if(window.location.pathname === "/bookmarks" && !isBookmarked){
+                        event.target.parentNode.remove();
+                    }
                 }
             })
         } catch (error) {

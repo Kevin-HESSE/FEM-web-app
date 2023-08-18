@@ -1,10 +1,28 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block search %}
-{% endblock %}
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
 
-{% block body %}
-    <h1>Page not found</h1>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
 
-    <p>It seems that the resource asked doesn't exist.</p>
-{% endblock %}
+    <body class="container">
+        <main class="content">
+            <h1>Page not found</h1>
+
+            <p>It seems that the resource asked doesn't exist.</p>
+
+            <p>You return to the homepage from here : <a class="nav-cta" href="{{ path('app_homepage') }}">Home</a></p>
+        </main>
+
+    </body>
+</html>

@@ -23,10 +23,6 @@ security:
                 enable_csrf: true
                 username_parameter: _email
 
-#            login_throttling:
-#                max_attempts: 3
-#                interval: 30 minutes
-
             logout:
                 path: app_auth_logout
                 target: app_auth_login
@@ -58,3 +54,11 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+
+when@prod:
+    security:
+        firewall:
+            main:
+                login_throttling:
+                    max_attempts: 3
+                    interval: 30 minutes

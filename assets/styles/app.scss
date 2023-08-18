@@ -1,5 +1,6 @@
 @use "form";
 @use "panel";
+@use "auth";
 @import "var";
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap');
@@ -9,6 +10,7 @@
     padding: 0;
     margin: 0;
 }
+
 
 body{
     background-color: $main-background;
@@ -45,6 +47,12 @@ button, input{
 
 .content{
    padding: 1.5rem 1rem;
+
+    @media (max-width: $desktop-breakpoint - 1) {
+        position: absolute;
+        width: 100%;
+        top: 68px;
+    }
 
     @media (min-width: $desktop-breakpoint) {
         padding: 2rem 0;
@@ -88,23 +96,26 @@ button, input{
 
 .nav{
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    gap: 1.5rem;
 
     @media (min-width: $desktop-breakpoint) {
-        align-items: center;
         flex-direction: column;
     }
 }
 
 .img-avatar{
     width: 24px;
+    height: 24px;
 
     @media (min-width: 450px) and (max-width: $desktop-breakpoint - 1px) {
         width: 32px;
+        height: 32px;
     }
 
     @media (min-width: $desktop-breakpoint) {
         width: 40px;
+        height: 40px;
     }
 }
 
@@ -112,13 +123,15 @@ button, input{
 .nav__item{
     //Equivalent to fill="#5A698F"
     filter: invert(43%) sepia(37%) saturate(422%) hue-rotate(185deg) brightness(87%) contrast(89%);
+    transition: 250ms;
 
     &.is-active{
-        filter: panel.$filter-white
+        filter: panel.$filter-white;
     }
 
     &:hover:not(.is-active){
-        filter: panel.$filter-red
+        filter: panel.$filter-red;
+        transition: 250ms;
     }
 }
 
