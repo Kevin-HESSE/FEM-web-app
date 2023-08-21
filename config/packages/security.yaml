@@ -27,6 +27,10 @@ security:
                 path: app_auth_logout
                 target: app_auth_login
 
+            login_throttling:
+                max_attempts: 3
+                interval: 30 minutes
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -55,10 +59,10 @@ when@test:
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
 
-when@prod:
+when@dev:
     security:
         firewall:
             main:
                 login_throttling:
-                    max_attempts: 3
-                    interval: 30 minutes
+                    max_attempts: 99
+                    interval: 1 minutes

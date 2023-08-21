@@ -1,4 +1,4 @@
-.PHONY: build clear migrations migrate seed entity up stop dev_deploy
+.PHONY: build clear migrations migrate seed entity up stop dev_deploy cache_clear node_init
 
 up:
 	docker-compose --env-file ./.env.local up -d
@@ -9,7 +9,7 @@ stop:
 build:
 	docker-compose build
 
-dev_deploy: clear up migrate seed
+dev_deploy: clear up migrate seed cache_clear
 
 clear: # Delete all container and volumes generated
 	docker-compose rm -f
@@ -32,3 +32,11 @@ seed:
 
 entity:
 	docker-compose exec symfony php bin/console make:entity
+
+cache_clear:
+	docker-compose exec symfony php bin/console cache:clear
+
+node_init: build
+	docker-compose run --rm -v $(pwd):/home/node/app node yarn install
+
+first_install: node_init dev_deploy vendor cache_clear
