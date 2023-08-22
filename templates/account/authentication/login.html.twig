@@ -22,9 +22,9 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         </div>
         <div class="form-auth__cta">
-            <p><a class="nav-cta" href="{{ path('app_forgot_password_request') }}">Lost your password ?</a></p>
+            <p><a class="nav-cta" href="#">Lost your password ?</a></p>
             <button class="btn">Login to your account</button>
-            <p>Don't have an account? <a class="nav-cta" href="{{ path('app_register') }}">Sign Up</a></p>
+            <p>Don't have an account? <a class="nav-cta" href="#">Sign Up</a></p>
         </div>
     </form>
 {% endblock %}

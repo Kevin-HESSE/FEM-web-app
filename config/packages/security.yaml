@@ -61,7 +61,7 @@ when@test:
 
 when@dev:
     security:
-        firewall:
+        firewalls:
             main:
                 login_throttling:
                     max_attempts: 99
