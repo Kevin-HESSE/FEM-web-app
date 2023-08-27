@@ -21,6 +21,8 @@ services:
     build:
       context: ./
       dockerfile: ./Docker/Node/Dockerfile
+    environment:
+      APP_ENV: ${APP_ENV}
     volumes:
       - ./:/home/node/app
     container_name: web_app_node
