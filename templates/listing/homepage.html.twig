@@ -5,8 +5,15 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('videoList', { title: 'Trending', isTrending: true}) }}
+    <div id="app"></div>
+{#    {{ component('videoList', { title: 'Trending', isTrending: true}) }}#}
 
-    {{ component('videoList', { title: 'Recommanded for you', videos}) }}
+{#    {{ component('videoList', { title: 'Recommanded for you', videos}) }}#}
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {{ encore_entry_script_tags('videos') }}
 {% endblock %}
