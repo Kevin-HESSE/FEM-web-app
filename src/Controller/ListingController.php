@@ -52,11 +52,11 @@ class ListingController extends AbstractController
             ]);
         }
 
-        $videos = $this->videoRepository->findAllVideoWithUserBookmarks($user);
+//        $videos = $this->videoRepository->findAllVideoWithUserBookmarks($user);
 
         return $this->render('listing/homepage.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',
-            'videos' => $videos
+//            'videos' => $videos
         ]);
     }
 

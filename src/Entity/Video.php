@@ -2,13 +2,27 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\VideoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['video:read', 'video:item:read']]
+)]
 class Video
 {
     #[ORM\Id]
@@ -17,27 +31,35 @@ class Video
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[ApiFilter(SearchFilter::class, strategy: 'ipartial')]
+    #[Groups(['video:read'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['video:read'])]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['video:read'])]
     private ?\DateTimeImmutable $releaseAt = null;
 
     #[ORM\Column]
+    #[ApiFilter(BooleanFilter::class)]
     private ?bool $isTrending = null;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'videos')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id' , nullable: false)]
+    #[Groups(['video:read'])]
     private ?Category $category = null;
 
     #[ORM\ManyToOne(targetEntity: Rating::class, inversedBy: 'videos')]
     #[ORM\JoinColumn(name: 'rating_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups(['video:read'])]
     private ?Rating $rating = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'bookmark')]
     #[ORM\JoinTable(name: 'user_video')]
+    #[Groups(['video:read'])]
     private Collection $users;
 
     public function __construct()

@@ -2,7 +2,7 @@
   <div class="thumbnail">
     <PictureComponent :is-trending="videoItem.isTrending" :videoItem="videoItem" />
 
-    <BookmarkFlagComponent :film-id="videoItem.id" :is-bookmarked="videoItem.isBookmarked"/>
+    <BookmarkFlagComponent is-bookmarked/>
 
     <div class="thumbnail__description">
       <p class="thumbnail__description-information">
