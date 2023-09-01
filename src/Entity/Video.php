@@ -23,6 +23,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     normalizationContext: ['groups' => ['video:read', 'video:item:read']]
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'users.email' => 'exact',
+])]
 class Video
 {
     #[ORM\Id]

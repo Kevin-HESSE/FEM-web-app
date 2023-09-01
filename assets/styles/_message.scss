@@ -1,0 +1,11 @@
+@import "var";
+
+.message{
+  padding: 1rem;
+  border-radius: 10px;
+
+  &.error{
+    background-color: red;
+    color: white;
+  }
+}
