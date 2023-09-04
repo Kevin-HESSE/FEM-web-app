@@ -10,8 +10,7 @@
 </template>
 
 <script setup>
-import axios from 'axios';
-import { computed, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 import ThumbnailComponent from '@/components/ThumbnailComponent.vue';
 
 const props = defineProps({
@@ -19,9 +18,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  videosList: {
+    type: Array,
+    required: true,
+  },
 });
-
-const videosList = ref([]);
 
 const classComponent = computed(() => {
   const classArray = ['list'];
@@ -30,13 +31,6 @@ const classComponent = computed(() => {
     classArray.push('is-trending');
   }
   return classArray;
-});
-
-onMounted(async () => {
-  const apiUrl = props.isTrending ? '/api/videos?page=1&isTrending=true' : '/api/videos?page=1';
-  const response = await axios(apiUrl);
-
-  videosList.value = response.data['hydra:member'];
 });
 
 </script>

@@ -15,5 +15,9 @@
 {% block javascripts %}
     {{ parent() }}
 
+    <script>
+        window.currentUser = "{{ currentUser }}"
+    </script>
+
     {{ encore_entry_script_tags('videos') }}
 {% endblock %}

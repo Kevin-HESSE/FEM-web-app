@@ -2,7 +2,7 @@
   <div class="thumbnail">
     <PictureComponent :is-trending="videoItem.isTrending" :videoItem="videoItem" />
 
-    <BookmarkFlagComponent is-bookmarked/>
+    <BookmarkFlagComponent :is-bookmarked="isBookmarked"/>
 
     <div class="thumbnail__description">
       <p class="thumbnail__description-information">
@@ -19,13 +19,23 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue';
 import PictureComponent from '@/components/PictureComponent.vue';
 import BookmarkFlagComponent from '@/components/BookmarkFlagComponent.vue';
+import { getCurrentUser } from '@/services/page-context';
 
-defineProps({
+const props = defineProps({
   videoItem: {
     type: Object,
   },
+});
+
+const isBookmarked = ref(false);
+
+onMounted(() => {
+  const currentUser = getCurrentUser();
+
+  isBookmarked.value = props.videoItem.users[0] === currentUser;
 });
 
 </script>

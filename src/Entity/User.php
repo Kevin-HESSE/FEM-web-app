@@ -53,6 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Video::class, inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_video')]
+    #[Groups(['user:read'])]
     private Collection $bookmark;
 
     public function __construct()

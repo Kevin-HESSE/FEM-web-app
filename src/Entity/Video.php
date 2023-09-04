@@ -9,10 +9,12 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\VideoRepository;
+use App\State\VideoStateProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
@@ -23,9 +25,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     normalizationContext: ['groups' => ['video:read', 'video:item:read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: [
-    'users.email' => 'exact',
-])]
 class Video
 {
     #[ORM\Id]
@@ -47,8 +46,12 @@ class Video
     private ?\DateTimeImmutable $releaseAt = null;
 
     #[ORM\Column]
+    #[Groups(['video:read'])]
     #[ApiFilter(BooleanFilter::class)]
     private ?bool $isTrending = null;
+
+    #[Groups(['video:read'])]
+    private bool $isBookmarked = false;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'videos')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id' , nullable: false)]
@@ -65,7 +68,7 @@ class Video
     #[Groups(['video:read'])]
     private Collection $users;
 
-    public function __construct()
+    public function __construct(#[CurrentUser] ?User $user = null)
     {
         $this->users = new ArrayCollection();
     }
@@ -111,7 +114,7 @@ class Video
         return $this;
     }
 
-    public function isTrending(): ?bool
+    public function getIsTrending(): ?bool
     {
         return $this->isTrending;
     }
@@ -155,9 +158,13 @@ class Video
         return $this->users;
     }
 
-    public function isBookmarked(): bool
+    public function getIsBookmarked(User $user): bool
     {
-        return !$this->users->isEmpty();
+        if($this->users->contains($user)){
+            $this->isBookmarked = true;
+        }
+
+        return $this->isBookmarked;
     }
 
     public function addUser(User $user): static
