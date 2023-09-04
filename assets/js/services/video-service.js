@@ -1,5 +1,18 @@
 import axios from 'axios';
 
-export function getVideos() {
-  return axios('/api/videos?page=1');
+/**
+ * Return all videos based on the parameters
+ * @param {String|null} searchTerm
+ * @return {Promise<axios.AxiosResponse<any>> | *}
+ */
+export function getVideos(searchTerm) {
+  const params = {};
+
+  if (searchTerm) {
+    params.title = searchTerm;
+  }
+
+  return axios.get('/api/videos?page=1', {
+    params,
+  });
 }
