@@ -28,7 +28,7 @@ class BookmarkStateProcessor implements ProcessorInterface
         /** @var User $user */
         $user = $this->security->getUser();
 
-        if($data->getUsers()->contains($this->security->getUser()) && $operation instanceof DeleteOperationInterface){
+        if($operation instanceof DeleteOperationInterface){
             $data->removeUser($user);
         } else {
             $data->addUser($user);
