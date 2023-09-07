@@ -8,8 +8,10 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
 use App\Repository\VideoRepository;
-use App\State\VideoStateProvider;
+use App\State\BookmarkStateProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -24,6 +26,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection()
     ],
     normalizationContext: ['groups' => ['video:read', 'video:item:read']]
+)]
+#[ApiResource(
+    uriTemplate: '/videos/{video_id}/bookmark',
+    operations: [ new Post(
+        processor: BookmarkStateProcessor::class
+    ) ],
+    uriVariables: [
+        'video_id' => new Link(fromClass: Video::class)
+    ],
+    denormalizationContext: ['groups' => ['video:post:bookmark']]
 )]
 class Video
 {
@@ -65,7 +77,7 @@ class Video
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'bookmark')]
     #[ORM\JoinTable(name: 'user_video')]
-    #[Groups(['video:read'])]
+    #[Groups(['video:read', 'video:post:bookmark'])]
     private Collection $users;
 
     public function __construct(#[CurrentUser] ?User $user = null)
