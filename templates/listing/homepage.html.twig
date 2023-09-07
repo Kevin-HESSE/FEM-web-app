@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <main class="content" id="app"></main>
+    <div id="app"></div>
 {#    {{ component('videoList', { title: 'Trending', isTrending: true}) }}#}
 
 {#    {{ component('videoList', { title: 'Recommanded for you', videos}) }}#}
@@ -17,6 +17,10 @@
 
     <script>
         window.currentUser = "{{ currentUser }}"
+        window.categories = {{ categories|jsonld }}
+      {% if currentCategory is not defined %}
+        window.currentCategory = null
+        {% endif %}
     </script>
 
     {{ encore_entry_script_tags('videos') }}

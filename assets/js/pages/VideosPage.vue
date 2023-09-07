@@ -1,19 +1,24 @@
 <template>
-  <form class="form-filter">
-    <button type="submit">
-      <img src="/build/images/icon-search.svg" alt="Search">
-    </button>
-    <SearchInput
-      label="Search for movies or TV series"
-      @search-video="handleInput"
-    />
-  </form>
-  <VideosList v-show="showTrendingList" is-trending :videos-list="trendingList">
-    Trending
-  </VideosList>
-  <VideosList :videos-list="videosList">
-    {{ titleList }}
-  </VideosList>
+  <NavSidebar />
+
+  <main class="content">
+    <form class="form-filter">
+      <button type="submit">
+        <img src="/build/images/icon-search.svg" alt="Search">
+      </button>
+      <SearchInput
+        label="Search for movies or TV series"
+        @search-video="handleInput"
+      />
+    </form>
+    <VideosList v-show="showTrendingList" is-trending :videos-list="trendingList">
+      Trending
+    </VideosList>
+    <VideosList :videos-list="videosList">
+      {{ titleList }}
+    </VideosList>
+  </main>
+
 </template>
 
 <script setup>
@@ -21,6 +26,7 @@ import { computed, onBeforeMount, ref } from 'vue';
 import { getVideos } from '@/services/video-service';
 import VideosList from '@/layout/VideosList.vue';
 import SearchInput from '@/components/form/SearchInput.vue';
+import NavSidebar from '@/layout/NavSidebar.vue';
 
 const videosList = ref([]);
 const trendingList = ref([]);

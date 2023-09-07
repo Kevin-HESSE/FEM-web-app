@@ -6,3 +6,7 @@
 export function getCurrentUser() {
   return window.currentUser;
 }
+
+export function getCategories() {
+  return window.categories;
+}
