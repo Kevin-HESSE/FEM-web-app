@@ -104,7 +104,8 @@ input[type='search']{
   color: $content-color;
 }
 
-.nav-cta{
+.cta{
+  cursor: pointer;
   margin-left: 0.5rem;
   color: $theme-color;
   text-decoration: none;

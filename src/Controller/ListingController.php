@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Category;
 use App\Entity\User;
-use App\Entity\Video;
-use App\Model\VideoInformation;
 use App\Repository\CategoryRepository;
 use App\Repository\VideoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('IS_AUTHENTICATED', statusCode: 403)]
@@ -35,10 +35,14 @@ class ListingController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'app_homepage')]
-    public function homepage(Request $request): Response
+    public function homepage(Request $request, IriConverterInterface $iriConverter, #[CurrentUser] User $user): Response
     {
         /** @var User $user */
         $user = $this->getUser();
+
+        if(!$user) {
+            return $this->render('account/authentication/login.html.twig');
+        }
 
         if($request->isMethod('POST') && $request->request->get('filter') !== ''){
             $searchTerm = $request->request->get('filter');
@@ -52,11 +56,9 @@ class ListingController extends AbstractController
             ]);
         }
 
-        $videos = $this->videoRepository->findAllVideoWithUserBookmarks($user);
-
         return $this->render('listing/homepage.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',
-            'videos' => $videos
+            'currentUser' => $iriConverter->getIriFromResource($user)
         ]);
     }
 

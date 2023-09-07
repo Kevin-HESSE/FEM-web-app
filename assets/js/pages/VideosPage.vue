@@ -1,87 +1,71 @@
 <template>
-  <section class="list is-trending">
-    <h1>Trending</h1>
-
-    <ThumbnailComponent
-      v-for="videoItem in videosList"
-      :key="videoItem.title"
-      :video-item="videoItem"/>
-  </section>
+  <form class="form-filter">
+    <button type="submit">
+      <img src="/build/images/icon-search.svg" alt="Search">
+    </button>
+    <SearchInput
+      label="Search for movies or TV series"
+      @search-video="handleInput"
+    />
+  </form>
+  <VideosList v-show="showTrendingList" is-trending :videos-list="trendingList">
+    Trending
+  </VideosList>
+  <VideosList :videos-list="videosList">
+    {{ titleList }}
+  </VideosList>
 </template>
 
 <script setup>
-import ThumbnailComponent from '@/components/ThumbnailComponent.vue';
+import { computed, onBeforeMount, ref } from 'vue';
+import { getVideos } from '@/services/video-service';
+import VideosList from '@/layout/VideosList.vue';
+import SearchInput from '@/components/form/SearchInput.vue';
 
-const videosList = [
-  {
-    id: 1,
-    title: 'Beyond Earth',
-    slug: 'beyond-earth',
-    releasedAt: '2019-01-01',
-    isTrending: true,
-    isBookmarked: true,
-    category: {
-      name: 'Movies',
-    },
-    rating: {
-      name: 'PG',
-    },
-  },
-  {
-    id: 2,
-    title: 'Bottom Gear',
-    slug: 'bottom-gear',
-    releasedAt: '2021-01-01',
-    isTrending: true,
-    isBookmarked: true,
-    category: {
-      name: 'Movies',
-    },
-    rating: {
-      name: 'PG',
-    },
-  },
-  {
-    id: 3,
-    title: 'Undiscovered Cities',
-    slug: 'undiscovered-cities',
-    releasedAt: '2019-01-01',
-    isTrending: true,
-    isBookmarked: false,
-    category: {
-      name: 'Movies',
-    },
-    rating: {
-      name: '18+',
-    },
-  },
-  {
-    id: 4,
-    title: '1998',
-    slug: '1998',
-    releasedAt: '2021-01-01',
-    isTrending: true,
-    isBookmarked: false,
-    category: {
-      name: 'Movies',
-    },
-    rating: {
-      name: 'PG',
-    },
-  },
-  {
-    id: 5,
-    title: 'Dark Side of the moon',
-    slug: 'dark-side-of-the-moon',
-    releasedAt: '2018-01-01',
-    isTrending: false,
-    isBookmarked: true,
-    category: {
-      name: 'Movies',
-    },
-    rating: {
-      name: 'PG',
-    },
-  },
-];
+const videosList = ref([]);
+const trendingList = ref([]);
+const searchTerm = ref('');
+
+const showTrendingList = computed(() => searchTerm.value === '');
+
+const titleList = computed(() => {
+  if (videosList.value.length === 0) {
+    return 'Sorry, we found no videos !';
+  }
+
+  const wordResult = videosList.value.length === 1 ? 'result' : 'results';
+
+  if (searchTerm.value !== '') {
+    return `Found ${videosList.value.length} ${wordResult} for '${searchTerm.value}'`;
+  }
+
+  return 'Recommended for you';
+});
+
+async function loadVideos() {
+  let videosData;
+
+  try {
+    videosData = await getVideos(searchTerm.value);
+  } catch (e) {
+    console.log(e);
+
+    return;
+  }
+
+  // eslint-disable-next-line consistent-return
+  return videosData.data['hydra:member'];
+}
+
+onBeforeMount(async () => {
+  videosList.value = await loadVideos();
+
+  trendingList.value = videosList.value.filter((video) => video.isTrending);
+});
+
+async function handleInput(term) {
+  searchTerm.value = term;
+
+  videosList.value = await loadVideos();
+}
 </script>

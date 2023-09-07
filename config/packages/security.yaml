@@ -17,11 +17,18 @@ security:
             lazy: true
             provider: app_user_provider
 
-            form_login:
-                login_path: app_auth_login
+            entry_point: App\Security\EntryPoint
+
+            json_login:
                 check_path: app_auth_login
-                enable_csrf: true
-                username_parameter: _email
+                username_path: email
+                password_path: password
+
+#            form_login:
+#                login_path: app_auth_login
+#                check_path: app_auth_login
+#                enable_csrf: true
+#                username_parameter: _email
 
             logout:
                 path: app_auth_logout

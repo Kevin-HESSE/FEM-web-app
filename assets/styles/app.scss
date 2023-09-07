@@ -1,6 +1,8 @@
 @use "form";
 @use "panel";
 @use "auth";
+@use "demo";
+@use "message";
 @import "var";
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap');
@@ -147,27 +149,7 @@ button, input{
     }
 }
 
-.message{
-    align-self: start;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2.5rem;
-
-    background-color: $header-background;
-    border-radius: 20px;
-
-    @media (max-width: $tablet-breakpoint - 1px) {
-        padding: 1.5rem;
-        width: 100%;
-    }
-
-    @media (min-width: $tablet-breakpoint) {
-        width: 600px;
-        padding: 2rem;
-    }
-}
 
 
 
