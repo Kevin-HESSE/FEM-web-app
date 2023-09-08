@@ -37,7 +37,7 @@ class ListingController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'app_homepage')]
-    public function homepage(Request $request, IriConverterInterface $iriConverter): Response
+    public function homepage(IriConverterInterface $iriConverter): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -58,7 +58,7 @@ class ListingController extends AbstractController
      * @return Response
      */
     #[Route('bookmarks', name: 'app_listing_bookmark')]
-    public function bookmark(Request $request, IriConverterInterface $iriConverter): Response
+    public function bookmark(IriConverterInterface $iriConverter): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -66,20 +66,6 @@ class ListingController extends AbstractController
         if(!$user) {
             return $this->render('account/authentication/login.html.twig');
         }
-
-        if($request->isMethod('POST') && $request->request->get('filter') !== ''){
-            $searchTerm = $request->request->get('filter');
-            $filteredResult = $this->videoRepository->findBookmarkTitleByTerm($searchTerm, $user);
-            $textResult = 'Found ' . count($filteredResult). ' results for \''. $searchTerm. '\'';
-
-            return $this->render('listing/search.html.twig',[
-                'videos' => $filteredResult,
-                'searchTerm' => $searchTerm,
-                'textResult' => $textResult
-            ]);
-        }
-
-        $videos = $this->videoRepository->findAllBookmarkedVideoForUser($user);
 
         return $this->render('listing/homepage.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',

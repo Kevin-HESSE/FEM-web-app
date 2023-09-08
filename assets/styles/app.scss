@@ -3,6 +3,7 @@
 @use "auth";
 @use "demo";
 @use "message";
+@use 'sidebar';
 @import "var";
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap');
@@ -12,7 +13,6 @@
     padding: 0;
     margin: 0;
 }
-
 
 body{
     background-color: $main-background;
@@ -31,9 +31,18 @@ button, input{
     background-color: transparent;
 }
 
+#app{
+    height: 100%;
+}
+
 .container{
     @media (min-width: $desktop-breakpoint) {
-        padding: 2rem;
+        display: grid;
+        grid: 100% / 80px calc(100% - 80px);
+        column-gap: 2.5rem;
+
+        height: 100%;
+        transition: 250ms ease;
     }
 
     &-auth{
@@ -47,63 +56,24 @@ button, input{
     }
 }
 
+
 .content{
    padding: 1.5rem 1rem;
 
     @media (max-width: $desktop-breakpoint - 1) {
         position: absolute;
         width: 100%;
-        top: 68px;
     }
 
     @media (min-width: $desktop-breakpoint) {
         padding: 2rem 0;
-        margin: 0 0 0 calc(96px + 3rem);
+        overflow-y: scroll;
     }
 
     & > :not(:last-child){
         margin-bottom: 1.5rem;
     }
 
-}
-.header{
-    background-color: $header-background;
-    display: grid;
-    justify-items: center;
-    position: fixed;
-
-    @media (max-width: $desktop-breakpoint - 1px) {
-        top: 0;
-        left: 0;
-        z-index: 10;
-        width: 100%;
-        padding: 1rem;
-
-        align-items: center;
-        grid-template-columns: auto 1fr auto;
-        grid-template-rows: auto;
-    }
-
-    @media (min-width: $desktop-breakpoint) {
-        padding: 2rem 1.5rem;
-        border-radius: 20px;
-        width: 96px;
-        height: calc(100% - 4rem);
-
-        grid-template-rows: auto 1fr auto;
-        grid-template-columns: auto;
-        row-gap: 3rem;
-    }
-}
-
-.nav{
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-
-    @media (min-width: $desktop-breakpoint) {
-        flex-direction: column;
-    }
 }
 
 .img-avatar{
@@ -118,22 +88,6 @@ button, input{
     @media (min-width: $desktop-breakpoint) {
         width: 40px;
         height: 40px;
-    }
-}
-
-
-.nav__item{
-    //Equivalent to fill="#5A698F"
-    filter: invert(43%) sepia(37%) saturate(422%) hue-rotate(185deg) brightness(87%) contrast(89%);
-    transition: 250ms;
-
-    &.is-active{
-        filter: panel.$filter-white;
-    }
-
-    &:hover:not(.is-active){
-        filter: panel.$filter-red;
-        transition: 250ms;
     }
 }
 
