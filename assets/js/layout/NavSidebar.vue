@@ -33,7 +33,7 @@
     </nav>
 
     <button class="banner--cta desktop" @click="$emit('extend-sidebar', !isExtended)">
-      Expand navigation bar
+      <img src="/build/images/icon-arrow.svg" alt="Extend the sidebar">
     </button>
     <!--      <img class="img-avatar" src="/build/images/image-avatar.png" alt="Avatar of the user">-->
   </header>

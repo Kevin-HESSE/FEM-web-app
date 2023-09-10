@@ -36,15 +36,6 @@ button, input{
 }
 
 .container{
-    @media (min-width: $desktop-breakpoint) {
-        display: grid;
-        grid: 100% / 80px calc(100% - 80px);
-        column-gap: 2.5rem;
-
-        height: 100%;
-        transition: 250ms ease;
-    }
-
     &-auth{
         display: grid;
         grid-template-columns: 1fr;
@@ -66,8 +57,10 @@ button, input{
     }
 
     @media (min-width: $desktop-breakpoint) {
-        padding: 2rem 0;
-        overflow-y: scroll;
+        padding: 2rem;
+        margin-left: calc(80px + 2rem);
+
+        transition: margin-left 250ms;
     }
 
     & > :not(:last-child){
@@ -100,6 +93,22 @@ button, input{
 
     @media (min-width: $tablet-breakpoint) {
         font-size: 2rem;
+    }
+}
+
+.mobile{
+    display: block;
+
+    @media (min-width: $desktop-breakpoint) {
+        display: none;
+    }
+}
+
+.desktop{
+    display: none;
+
+    @media (min-width: $desktop-breakpoint) {
+        display: block;
     }
 }
 

@@ -20,26 +20,17 @@
 
 @media (min-width: $desktop-breakpoint) {
   .is-extended{
-    &.container{
-      grid: 100%/200px calc(100% - 200px);
-    }
-
-    &.header{
+    & .header{
       width: 200px;
-
-      & p.v-enter-active, & p.v-leave-active{
-        transform: translateX(0);
-        opacity: 1;
-      }
     }
 
-    & .banner--cta:before{
-      rotate: -20deg;
+    & .content{
+      margin-left: calc(200px + 2rem);
     }
 
-    & .banner--cta:after {
-      rotate: 20deg;
+    & .banner--cta img{
+        left: 80%;
+        rotate: 180deg;
     }
-
   }
 }
