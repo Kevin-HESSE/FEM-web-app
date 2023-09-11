@@ -19,7 +19,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update-bookmark']);
+const emit = defineEmits(['updateBookmark']);
 /**
  *
  * @type {ComputedRef<string[]>}
@@ -36,7 +36,7 @@ const componentClass = computed(() => {
 });
 
 function handleBookmark() {
-  emit('update-bookmark', !props.isBookmarked);
+  emit('updateBookmark', !props.isBookmarked);
 }
 
 </script>
