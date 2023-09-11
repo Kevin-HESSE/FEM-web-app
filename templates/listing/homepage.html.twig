@@ -16,11 +16,14 @@
     {{ parent() }}
 
     <script>
-        window.currentUser = "{{ currentUser }}"
-        window.categories = {{ categories|jsonld }}
+      window.currentUser = "{{ currentUser }}"
+      window.categories = {{ categories|jsonld }}
       {% if currentCategory is not defined %}
         window.currentCategory = null
-        {% endif %}
+      {% else %}
+        window.currentCategory = "{{ currentCategory }}"
+      {% endif %}
+      window.isBookmarked = window.location.pathname === '/bookmarks'
     </script>
 
     {{ encore_entry_script_tags('videos') }}

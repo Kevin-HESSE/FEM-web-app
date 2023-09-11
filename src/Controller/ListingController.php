@@ -25,6 +25,7 @@ class ListingController extends AbstractController
 
     /**
      * @param VideoRepository $videoRepository
+     * @param CategoryRepository $categoryRepository
      */
     public function __construct(VideoRepository $videoRepository, CategoryRepository $categoryRepository)
     {
@@ -33,7 +34,7 @@ class ListingController extends AbstractController
     }
 
     /**
-     * @param Request $request
+     * @param IriConverterInterface $iriConverter
      * @return Response
      */
     #[Route('/', name: 'app_homepage')]
@@ -54,7 +55,7 @@ class ListingController extends AbstractController
     }
 
     /**
-     * @param Request $request
+     * @param IriConverterInterface $iriConverter
      * @return Response
      */
     #[Route('bookmarks', name: 'app_listing_bookmark')]
@@ -62,10 +63,6 @@ class ListingController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-
-        if(!$user) {
-            return $this->render('account/authentication/login.html.twig');
-        }
 
         return $this->render('listing/homepage.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',
@@ -82,22 +79,23 @@ class ListingController extends AbstractController
      * @return Response
      */
     #[Route('/category/{slug}', name: 'app_listing_categories')]
-    public function categories(string $slug, IriConverterInterface $iriConverter): Response
+    public function categories(string $slug, CategoryRepository $categoryRepository, IriConverterInterface $iriConverter): Response
     {
         /** @var User $user */
         $user = $this->getUser();
 
-//        /** @type Category $category */
-//        $category = $categoryRepository->findOneBy(['slug' => $slug]);
+        /** @type Category $category */
+        $category = $categoryRepository->findOneBy(['slug' => $slug]);
 
-//        $formPlaceholder = 'Search for '. strtolower($category->getName());
-
-//        $videos = $this->videoRepository->findAllVideosWithUserBookmarksByCategory($user, $category);
+        if( is_null($category)) {
+            throw $this->createNotFoundException();
+        }
 
         return $this->render('listing/homepage.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',
             'currentUser' => $iriConverter->getIriFromResource($user),
             'categories' => $this->categoryRepository->findAll(),
+            'currentCategory' => $slug
         ]);
     }
 }

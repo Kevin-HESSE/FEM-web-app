@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getCurrentUser } from '@/services/page-context';
+import { urlConstructor } from '@/helpers/urlConstructor';
 
 /**
  * Return all videos based on the parameters
@@ -9,11 +10,13 @@ import { getCurrentUser } from '@/services/page-context';
 export function getVideos(searchTerm) {
   const params = {};
 
+  const url = urlConstructor();
+
   if (searchTerm) {
     params.title = searchTerm;
   }
 
-  return axios.get('/api/videos?page=1', {
+  return axios.get(url, {
     params,
   });
 }

@@ -42,7 +42,6 @@ onMounted(() => {
 async function handleUpdateBookmark() {
   const method = isBookmarked.value ? 'delete' : 'post';
   isBookmarked.value = !isBookmarked.value;
-  console.log(method);
   await updateBookmark(method, props.videoItem.id);
 }
 

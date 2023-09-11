@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <h2><slot></slot></h2>
-    <section :class="classComponent">
+  <section class="section-video">
+    <h2 class="section-video__title"><slot /></h2>
+    <div :class="classComponent">
       <ThumbnailComponent
         v-for="videoItem in videosList"
         :key="videoItem.title"
         :video-item="videoItem"
       />
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script setup>

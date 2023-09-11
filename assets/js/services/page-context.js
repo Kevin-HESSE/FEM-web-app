@@ -10,3 +10,7 @@ export function getCurrentUser() {
 export function getCategories() {
   return window.categories;
 }
+
+export function getCurrentCategory() {
+  return window.currentCategory;
+}

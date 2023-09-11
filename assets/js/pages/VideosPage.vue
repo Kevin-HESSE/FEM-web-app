@@ -31,6 +31,7 @@ import { getVideos } from '@/services/video-service';
 import VideosList from '@/layout/VideosList.vue';
 import SearchInput from '@/components/form/SearchInput.vue';
 import NavSidebar from '@/layout/NavSidebar.vue';
+import { sectionTitleConstructor } from '@/helpers/sectionTitleConstructor';
 
 const videosList = ref([]);
 const trendingList = ref([]);
@@ -58,21 +59,10 @@ onBeforeMount(async () => {
   trendingList.value = videosList.value.filter((video) => video.isTrending);
 });
 
-const showTrendingList = computed(() => searchTerm.value === '');
+const showTrendingList = computed(() => searchTerm.value === '' && window.location.pathname === '/');
 
-const titleList = computed(() => {
-  if (videosList.value.length === 0) {
-    return 'Sorry, we found no videos !';
-  }
+const titleList = computed(() => sectionTitleConstructor(videosList.value, searchTerm.value));
 
-  const wordResult = videosList.value.length === 1 ? 'result' : 'results';
-
-  if (searchTerm.value !== '') {
-    return `Found ${videosList.value.length} ${wordResult} for '${searchTerm.value}'`;
-  }
-
-  return 'Recommended for you';
-});
 const classComponent = computed(() => (isExtended.value ? 'container is-extended' : 'container'));
 
 async function handleInput(term) {
