@@ -1,0 +1,85 @@
+@use "extended";
+@use "banner";
+@import "../var";
+
+.header{
+  background-color: $header-background;
+  overflow: hidden;
+
+  @media (min-width: $desktop-breakpoint) {
+    position: fixed;
+    width: 80px;
+    height: 100%;
+
+    display: grid;
+
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: auto;
+    row-gap: 3rem;
+
+    padding: 2rem 1.5rem;
+    border-radius: 0 20px 20px 0;
+
+    transition: width 250ms;
+  }
+}
+
+.nav{
+  display: flex;
+  gap: 1.5rem;
+  flex-direction: column;
+
+  @media (max-width: $desktop-breakpoint - 1px) {
+    position: fixed;
+    bottom: calc(-40% - 60px);
+    right: 0;
+    z-index: 8;
+
+    background-color: $header-background;
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    padding: 2rem;
+    overflow: clip;
+
+    transition: bottom 350ms ease-in;
+
+    & a:last-child{
+      margin-top: 1.5rem;
+    }
+  }
+
+  @media (min-width: $desktop-breakpoint) {
+    & a:last-child{
+      margin: auto 0 1.5rem 0;
+    }
+  }
+}
+
+.nav__item{
+  //Equivalent to fill="#5A698F"
+  filter: invert(43%) sepia(37%) saturate(422%) hue-rotate(185deg) brightness(87%) contrast(89%);
+
+  display: flex;
+  gap: 0 2rem;
+  text-decoration: none;
+
+  @media (min-width: $desktop-breakpoint) {
+    transition: 250ms;
+    display: grid;
+    grid-template-columns: 32px auto;
+  }
+
+  &.is-active{
+    filter: $filter-white;
+  }
+
+  &:hover:not(.is-active){
+    filter: $filter-red;
+    transition: 250ms;
+  }
+
+  & img {
+    justify-self: center;
+  }
+
+}

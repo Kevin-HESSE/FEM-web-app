@@ -1,0 +1,36 @@
+@import "../var";
+
+@media (max-width: $desktop-breakpoint - 1px) {
+  .is-extended{
+    & .banner--cta:before{
+      transform: rotate(45deg);
+      margin-top: 0;
+    }
+
+    & .banner--cta:after {
+      transform: rotate(-45deg);
+      margin-top: 0;
+    }
+
+    & .nav{
+      bottom: 60px;
+    }
+  }
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .is-extended{
+    & .header{
+      width: 200px;
+    }
+
+    & .content{
+      margin-left: calc(200px + 2rem);
+    }
+
+    & .banner--cta img{
+        left: 80%;
+        rotate: 180deg;
+    }
+  }
+}
