@@ -31,46 +31,40 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @param UserPasswordHasherInterface $userPasswordHasher
-     * @param EntityManagerInterface $entityManager
      * @return Response
      */
-//    #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    #[Route('/register', name: 'app_register')]
+    public function register(): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+//        $form = $this->createForm(RegistrationFormType::class, $user);
+//        $form->handleRequest($request);
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            // encode the plain password
+//            $user->setPassword(
+//                $userPasswordHasher->hashPassword(
+//                    $user,
+//                    $form->get('plainPassword')->getData()
+//                )
+//            );
+//
+//            $entityManager->persist($user);
+//            $entityManager->flush();
+//
+//            // generate a signed url and email it to the user
+//            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+//                (new TemplatedEmail())
+//                    ->from(new Address('admin@webapp.io', 'Movie web app bot'))
+//                    ->to($user->getEmail())
+//                    ->subject('Please Confirm your Email')
+//                    ->htmlTemplate('account/registration/confirmation_email.html.twig')
+//            );
+//
+//            $this->addFlash('check-email', 'Don\'t forget to verify your email address with the mail we send you !');
+//
+//            return $this->redirectToRoute('app_homepage');
+//        }
 
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('admin@webapp.io', 'Movie web app bot'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('account/registration/confirmation_email.html.twig')
-            );
-
-            $this->addFlash('check-email', 'Don\'t forget to verify your email address with the mail we send you !');
-
-            return $this->redirectToRoute('app_homepage');
-        }
-
-        return $this->render('account/registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return $this->render('account/registration/register.html.twig');
     }
 
     /**

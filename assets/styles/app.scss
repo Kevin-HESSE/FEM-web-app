@@ -35,18 +35,15 @@ button, input{
     height: 100%;
 }
 
-.container{
-    &-auth{
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 4fr;
-        align-items: center;
-        justify-items: center;
+.container-auth{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 20% 4fr;
+    align-items: center;
+    justify-items: center;
 
-        padding: 1.5rem;
-    }
+    padding: 1.5rem;
 }
-
 
 .content{
    padding: 1.5rem 1rem;

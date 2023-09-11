@@ -1,5 +1,5 @@
 <template>
-  <div class="thumbnail">
+  <div v-if="showInBookmark" class="thumbnail">
     <PictureComponent :is-trending="videoItem.isTrending" :videoItem="videoItem" />
 
     <BookmarkFlagComponent :is-bookmarked="isBookmarked" @update-bookmark="handleUpdateBookmark"/>
@@ -32,6 +32,7 @@ const props = defineProps({
 });
 
 const isBookmarked = ref(false);
+const showInBookmark = ref(true);
 
 onMounted(() => {
   const currentUser = getCurrentUser();
@@ -43,6 +44,10 @@ async function handleUpdateBookmark() {
   const method = isBookmarked.value ? 'delete' : 'post';
   isBookmarked.value = !isBookmarked.value;
   await updateBookmark(method, props.videoItem.id);
+
+  if (method === 'delete' && window.location.pathname === '/bookmarks') {
+    showInBookmark.value = false;
+  }
 }
 
 </script>

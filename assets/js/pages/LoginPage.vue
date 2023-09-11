@@ -26,7 +26,7 @@
     <div class="form-auth__cta">
       <p><a class="cta" href="#">Lost your password ?</a></p>
       <button class="btn">Login to your account</button>
-      <p>Don't have an account? <a class="cta" href="#">Sign Up</a></p>
+      <p>Don't have an account? <a class="cta" href="/register">Sign Up</a></p>
     </div>
   </form>
 

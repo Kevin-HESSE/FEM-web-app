@@ -12,6 +12,10 @@ input[type='email'], input[type='password']{
   border-bottom: 1px solid $secondary-color;
 
   padding: 0 1rem 1.2rem 1rem;
+
+  &:focus{
+    border-color: #FFFFFF;
+  }
 }
 
 input[type='email']:focus + .form-auth__field-error{
@@ -100,8 +104,16 @@ input[type='search']{
   padding: 1rem 0;
   border-radius: 6px;
   background-color: $theme-color;
+  cursor: pointer;
 
   color: $content-color;
+
+  transition: 200ms ease-in;
+
+  &:hover{
+    background-color: $content-color;
+    color: $main-background;
+  }
 }
 
 .cta{
