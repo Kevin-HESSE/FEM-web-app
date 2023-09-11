@@ -17,24 +17,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(),
         new GetCollection()
-    ]
+    ],
+    normalizationContext: ['groups' => ['category:read']]
 )]
 class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['category:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['video:item:read'])]
+    #[Groups(['video:item:read', 'category:read'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Video::class)]
     private Collection $videos;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['video:item:read'])]
+    #[Groups(['video:item:read', 'category:read'])]
     private ?string $slug = null;
 
     public function __construct()

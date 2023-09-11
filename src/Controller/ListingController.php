@@ -21,13 +21,15 @@ class ListingController extends AbstractController
      * @var VideoRepository
      */
     private VideoRepository $videoRepository;
+    private CategoryRepository $categoryRepository;
 
     /**
      * @param VideoRepository $videoRepository
      */
-    public function __construct(VideoRepository $videoRepository)
+    public function __construct(VideoRepository $videoRepository, CategoryRepository $categoryRepository)
     {
         $this->videoRepository = $videoRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -35,7 +37,7 @@ class ListingController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'app_homepage')]
-    public function homepage(Request $request, IriConverterInterface $iriConverter, #[CurrentUser] User $user): Response
+    public function homepage(IriConverterInterface $iriConverter): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -44,21 +46,10 @@ class ListingController extends AbstractController
             return $this->render('account/authentication/login.html.twig');
         }
 
-        if($request->isMethod('POST') && $request->request->get('filter') !== ''){
-            $searchTerm = $request->request->get('filter');
-            $filteredResult = $this->videoRepository->findTitleByTerm($searchTerm, $user);
-            $textResult = 'Found ' . count($filteredResult). ' results for \''. $searchTerm. '\'';
-
-            return $this->render('listing/search.html.twig',[
-                'videos' => $filteredResult,
-                'searchTerm' => $searchTerm,
-                'textResult' => $textResult
-            ]);
-        }
-
         return $this->render('listing/homepage.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',
-            'currentUser' => $iriConverter->getIriFromResource($user)
+            'currentUser' => $iriConverter->getIriFromResource($user),
+            'categories' => $this->categoryRepository->findAll(),
         ]);
     }
 
@@ -67,28 +58,19 @@ class ListingController extends AbstractController
      * @return Response
      */
     #[Route('bookmarks', name: 'app_listing_bookmark')]
-    public function bookmark(Request $request): Response
+    public function bookmark(IriConverterInterface $iriConverter): Response
     {
         /** @var User $user */
         $user = $this->getUser();
 
-        if($request->isMethod('POST') && $request->request->get('filter') !== ''){
-            $searchTerm = $request->request->get('filter');
-            $filteredResult = $this->videoRepository->findBookmarkTitleByTerm($searchTerm, $user);
-            $textResult = 'Found ' . count($filteredResult). ' results for \''. $searchTerm. '\'';
-
-            return $this->render('listing/search.html.twig',[
-                'videos' => $filteredResult,
-                'searchTerm' => $searchTerm,
-                'textResult' => $textResult
-            ]);
+        if(!$user) {
+            return $this->render('account/authentication/login.html.twig');
         }
 
-        $videos = $this->videoRepository->findAllBookmarkedVideoForUser($user);
-
-        return $this->render('listing/bookmark.html.twig', [
-            'formPlaceholder' => 'Search for bookmarked shows',
-            'videos' => $videos
+        return $this->render('listing/homepage.html.twig', [
+            'formPlaceholder' => 'Search for movies or TV series',
+            'currentUser' => $iriConverter->getIriFromResource($user),
+            'categories' => $this->categoryRepository->findAll(),
         ]);
     }
 
@@ -100,36 +82,22 @@ class ListingController extends AbstractController
      * @return Response
      */
     #[Route('/category/{slug}', name: 'app_listing_categories')]
-    public function categories(CategoryRepository $categoryRepository, string $slug, Request $request): Response
+    public function categories(string $slug, IriConverterInterface $iriConverter): Response
     {
         /** @var User $user */
         $user = $this->getUser();
 
-        /** @type Category $category */
-        $category = $categoryRepository->findOneBy(['slug' => $slug]);
+//        /** @type Category $category */
+//        $category = $categoryRepository->findOneBy(['slug' => $slug]);
 
-        if($request->isMethod('POST') && $request->request->get('filter') !== ''){
-            $searchTerm = $request->request->get('filter');
-            $filteredResult = $this->videoRepository->findTitleByTermAndCategory($searchTerm, $category);
-            $textResult = 'Found ' . count($filteredResult). ' results for \''. $searchTerm. '\'';
+//        $formPlaceholder = 'Search for '. strtolower($category->getName());
 
-            return $this->render('listing/search.html.twig',[
-                'videos' => $filteredResult,
-                'searchTerm' => $searchTerm,
-                'textResult' => $textResult,
-                'slug' => $slug
-            ]);
-        }
+//        $videos = $this->videoRepository->findAllVideosWithUserBookmarksByCategory($user, $category);
 
-        $formPlaceholder = 'Search for '. strtolower($category->getName());
-
-        $videos = $this->videoRepository->findAllVideosWithUserBookmarksByCategory($user, $category);
-
-        return $this->render('listing/categories.html.twig', [
-            'formPlaceholder' => $formPlaceholder,
-            'videos' => $videos,
-            'slug' => $slug,
-            'title' => $category->getName()
+        return $this->render('listing/homepage.html.twig', [
+            'formPlaceholder' => 'Search for movies or TV series',
+            'currentUser' => $iriConverter->getIriFromResource($user),
+            'categories' => $this->categoryRepository->findAll(),
         ]);
     }
 }
