@@ -1,4 +1,4 @@
-@import "var";
+@import "../var";
 
 @media (max-width: $tablet-breakpoint - 1px) {
   :root {
@@ -34,7 +34,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, var(--width-thumbnail));
   justify-content: space-between;
-  grid-gap: 1rem;
+  column-gap: 1.5rem;
+  row-gap: 2rem;
 }
 
 .is-trending{

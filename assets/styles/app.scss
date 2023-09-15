@@ -1,9 +1,9 @@
 @use "form";
-@use "panel";
 @use "auth";
 @use "demo";
 @use "message";
 @use 'sidebar';
+@use "video_content";
 @import "var";
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap');
@@ -35,18 +35,15 @@ button, input{
     height: 100%;
 }
 
-.container{
-    &-auth{
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 4fr;
-        align-items: center;
-        justify-items: center;
+.container-auth{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 20% 4fr;
+    align-items: center;
+    justify-items: center;
 
-        padding: 1.5rem;
-    }
+    padding: 1.5rem;
 }
-
 
 .content{
    padding: 1.5rem 1rem;
@@ -54,6 +51,7 @@ button, input{
     @media (max-width: $desktop-breakpoint - 1) {
         position: absolute;
         width: 100%;
+        padding-bottom: calc(60px + 2.5rem);
     }
 
     @media (min-width: $desktop-breakpoint) {

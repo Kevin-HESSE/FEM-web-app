@@ -3,24 +3,11 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+    <div id="app"></div>
+{% endblock %}
 
-    <form action="{{ path(app.current_route) }}" method="post" class="form-auth">
-        <h1>Reset your password</h1>
+{% block javascripts %}
+    {{ parent() }}
 
-        <div class="form-auth__input">
-            {{ component('inputField', { type: 'email', field: requestForm.email}) }}
-            <small>
-                Enter your email address, and we will send you a
-                link to reset your password.
-            </small>
-            {{ form_rest(requestForm) }}
-        </div>
-
-        <div class="form-auth__cta">
-            <button class="btn">Send password reset email</button>
-        </div>
-    </form>
+    {{ encore_entry_script_tags('resetPassword') }}
 {% endblock %}

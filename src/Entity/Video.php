@@ -43,6 +43,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     denormalizationContext: ['groups' => ['video:post:bookmark']]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['category.slug' => 'exact'])]
 class Video
 {
     #[ORM\Id]
@@ -85,6 +86,7 @@ class Video
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'bookmark')]
     #[ORM\JoinTable(name: 'user_video')]
     #[Groups(['video:read', 'video:post:bookmark'])]
+    #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private Collection $users;
 
     public function __construct(#[CurrentUser] ?User $user = null)

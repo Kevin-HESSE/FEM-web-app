@@ -4,7 +4,7 @@
   margin: 1rem 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 
   background-color: $header-background;
   border-radius: 20px;
@@ -53,4 +53,27 @@
     transform: scaleX(1);
     transform-origin: bottom left;
   }
+}
+
+.demo__description{
+  text-align: justify;
+  line-height: 1.50rem;
+}
+
+@mixin slideAnim($duration) {
+  &-enter-active {
+    transition: $duration ease-in $duration;
+  }
+  &-leave-active {
+    transition: $duration ease-in ;
+  }
+}
+
+.slide-out{
+  &-enter-from, &-leave-to{
+    opacity: 0;
+    transform: rotateY(90deg);
+  }
+
+  @include slideAnim(250ms)
 }
