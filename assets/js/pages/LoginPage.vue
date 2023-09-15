@@ -24,7 +24,7 @@
       />
     </div>
     <div class="form-auth__cta">
-      <p><a class="cta" href="#">Lost your password ?</a></p>
+      <p><a class="cta" href="/reset-password">Lost your password ?</a></p>
       <button class="btn">Login to your account</button>
       <p>Don't have an account? <a class="cta" href="/register">Sign Up</a></p>
     </div>
@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import BaseInput from '@/components/form/BaseInput.vue';
+import BaseInput from '@/components/form/BaseInputComponent.vue';
 
 const email = ref('');
 const password = ref('');

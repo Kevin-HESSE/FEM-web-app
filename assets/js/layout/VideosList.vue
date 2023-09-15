@@ -6,6 +6,7 @@
         v-for="videoItem in videosList"
         :key="videoItem.title"
         :video-item="videoItem"
+        :is-trending="isTrending"
       />
     </div>
   </section>

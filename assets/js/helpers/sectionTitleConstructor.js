@@ -25,5 +25,9 @@ export function sectionTitleConstructor(videosList, searchTerm) {
     return categoryFound.name;
   }
 
+  if (window.location.pathname === '/bookmarks') {
+    return 'Bookmarked videos';
+  }
+
   return 'Recommended for you';
 }

@@ -1,6 +1,6 @@
 <template>
   <div v-if="showInBookmark" class="thumbnail">
-    <PictureComponent :is-trending="videoItem.isTrending" :videoItem="videoItem" />
+    <PictureComponent :is-trending="isTrending" :videoItem="videoItem" />
 
     <BookmarkFlagComponent :is-bookmarked="isBookmarked" @update-bookmark="handleUpdateBookmark"/>
 
@@ -28,6 +28,11 @@ import { updateBookmark } from '@/services/video-service';
 const props = defineProps({
   videoItem: {
     type: Object,
+    required: true,
+  },
+  isTrending: {
+    type: Boolean,
+    default: false,
   },
 });
 
