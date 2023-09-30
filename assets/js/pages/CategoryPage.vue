@@ -5,16 +5,13 @@
         <img src="/build/images/icon-search.svg" alt="Search">
       </button>
       <SearchInput
-        label="Search for movies or TV series"
-        @search-video="handleInput"
+          label="Search for movies or TV series"
+          @search-video="handleInput"
       />
     </form>
 
     <LoadingComponent v-show="isLoading" />
 
-    <CarouselComponent v-show="showTrendingList" :videos-list="trendingList">
-      Trending
-    </CarouselComponent>
     <VideosList v-show="!isLoading" :videos-list="videosList">
       {{ titleList }}
     </VideosList>
@@ -28,7 +25,6 @@ import VideosList from '@/components/organisms/VideosList.vue';
 import SearchInput from '@/components/atoms/form/SearchInputComponent.vue';
 import { sectionTitleConstructor } from '@/helpers/sectionTitleConstructor';
 import LoadingComponent from '@/components/atoms/LoadingComponent.vue';
-import CarouselComponent from '@/components/molecules/CarouselComponent.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 
 const videosList = ref([]);
@@ -58,8 +54,6 @@ onBeforeMount(async () => {
 
   isLoading.value = false;
 });
-
-const showTrendingList = computed(() => searchTerm.value === '' && window.location.pathname === '/' && !isLoading.value);
 
 const titleList = computed(() => sectionTitleConstructor(videosList.value, searchTerm.value));
 

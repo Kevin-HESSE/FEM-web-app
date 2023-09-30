@@ -20,8 +20,8 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import PictureComponent from '@/components/PictureComponent.vue';
-import BookmarkFlagComponent from '@/components/BookmarkFlagComponent.vue';
+import PictureComponent from '@/components/atoms/PictureComponent.vue';
+import BookmarkFlagComponent from '@/components/atoms/BookmarkFlagComponent.vue';
 import { getCurrentUser } from '@/services/page-context';
 import { updateBookmark } from '@/services/video-service';
 

@@ -49,8 +49,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import BaseInput from '@/components/form/BaseInputComponent.vue';
-import ErrorMessage from '@/components/form/ErrorMessageComponent.vue';
+import BaseInput from '@/components/atoms/form/BaseInputComponent.vue';
+import ErrorMessage from '@/components/atoms/form/ErrorMessageComponent.vue';
 import { emailVerifier } from '@/helpers/emailVerifier';
 import MessageComponent from '@/components/demo/MessageComponent.vue';
 

@@ -42,10 +42,10 @@
 
 <script setup>
 import { ref } from 'vue';
-import BaseInput from '@/components/form/BaseInputComponent.vue';
+import BaseInput from '@/components/atoms/form/BaseInputComponent.vue';
 import { emailVerifier } from '@/helpers/emailVerifier';
 import { getUserByEmail } from '@/services/user-service';
-import ErrorMessage from '@/components/form/ErrorMessageComponent.vue';
+import ErrorMessage from '@/components/atoms/form/ErrorMessageComponent.vue';
 import MessageComponent from '@/components/demo/MessageComponent.vue';
 
 const email = ref('');

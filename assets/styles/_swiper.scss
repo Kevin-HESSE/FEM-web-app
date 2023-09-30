@@ -1,0 +1,35 @@
+@import "var";
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+    width: var(--width-thumbnail-trending) !important;
+
+  ////Resize the width and the height for the trending section
+  & .thumbnail__image {
+    width: var(--width-thumbnail-trending);
+    height: var(--height-thumbnail-trending);
+  }
+
+  //Put the description on the image with a fade background to aid the reading
+  & .thumbnail__description{
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0 0 10px 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: $secondary-color-low-opacity;
+  }
+
+  & .thumbnail__description-title {
+    font-size: 1rem;
+
+    @media (min-width: $tablet-breakpoint) {
+      font-size: 1.5rem;
+    }
+  }
+}

@@ -9,5 +9,11 @@
 {% block javascripts %}
     {{ parent() }}
 
+    <script>
+      window.demo = "{{ isDemo }}"
+    </script>
+
     {{ encore_entry_script_tags('login') }}
+
+
 {% endblock %}

@@ -14,7 +14,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import ThumbnailComponent from '@/components/ThumbnailComponent.vue';
+import ThumbnailComponent from '@/components/molecules/ThumbnailComponent.vue';
 
 const props = defineProps({
   isTrending: {

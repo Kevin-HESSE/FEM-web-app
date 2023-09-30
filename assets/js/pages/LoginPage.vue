@@ -30,7 +30,7 @@
     </div>
   </form>
 
-  <div class="demo">
+  <div v-if="demo" class="demo">
     <p>You can autocomplete the form with the following information : </p>
     <ul>
       <li>Email : <span class="cta" @click="handleEmailCompletion">toto@test.io</span></li>
@@ -41,11 +41,13 @@
 
 <script setup>
 import { ref } from 'vue';
-import BaseInput from '@/components/form/BaseInputComponent.vue';
+import BaseInput from '@/components/atoms/form/BaseInputComponent.vue';
+import { isDemo } from '@/services/page-context';
 
 const email = ref('');
 const password = ref('');
 const error = ref('');
+const demo = isDemo();
 
 const handleEmailCompletion = () => {
   email.value = 'toto@test.io';

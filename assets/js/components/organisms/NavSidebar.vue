@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import LinkComponent from '@/components/navigation/LinkComponent.vue';
+import LinkComponent from '@/components/atoms/LinkComponent.vue';
 import { getCategories } from '@/services/page-context';
 
 const categories = getCategories();

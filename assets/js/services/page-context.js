@@ -14,3 +14,7 @@ export function getCategories() {
 export function getCurrentCategory() {
   return window.currentCategory;
 }
+
+export function isDemo() {
+  return window.demo;
+}
