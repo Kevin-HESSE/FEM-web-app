@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import App from './pages/VideosPage.vue';
+import App from './pages/BookmarkPage.vue';
 
 const pinia = createPinia();
 

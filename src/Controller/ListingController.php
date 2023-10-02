@@ -64,7 +64,7 @@ class ListingController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        return $this->render('listing/homepage.html.twig', [
+        return $this->render('listing/bookmark.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',
             'currentUser' => $iriConverter->getIriFromResource($user),
             'categories' => $this->categoryRepository->findAll(),
@@ -91,7 +91,7 @@ class ListingController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        return $this->render('listing/homepage.html.twig', [
+        return $this->render('listing/categories.html.twig', [
             'formPlaceholder' => 'Search for movies or TV series',
             'currentUser' => $iriConverter->getIriFromResource($user),
             'categories' => $this->categoryRepository->findAll(),

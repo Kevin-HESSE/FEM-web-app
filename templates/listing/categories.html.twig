@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - Homepage
+    {{ parent() }} - {{ currentCategory }}
 {% endblock %}
 
 {% block body %}
@@ -14,8 +14,8 @@
     <script>
         window.currentUser = "{{ currentUser }}"
         window.categories = {{ categories|jsonld }}
-        window.currentCategory = null
+        window.currentCategory = "{{ currentCategory }}"
     </script>
 
-    {{ encore_entry_script_tags('videos') }}
+    {{ encore_entry_script_tags('categories') }}
 {% endblock %}

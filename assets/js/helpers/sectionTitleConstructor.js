@@ -7,27 +7,19 @@ import { getCategories, getCurrentCategory } from '@/services/page-context';
  * @param searchTerm
  * @return {string}
  */
-export function sectionTitleConstructor(videosList, searchTerm) {
+export function searchTitleConstructor(videosList, searchTerm) {
   if (videosList.length === 0) {
     return 'Sorry, we found no videos !';
   }
 
-  if (searchTerm !== '') {
-    const wordResult = videosList.length === 1 ? 'result' : 'results';
-    return `Found ${videosList.length} ${wordResult} for '${searchTerm}'`;
-  }
+  const wordResult = videosList.length === 1 ? 'result' : 'results';
+  return `Found ${videosList.length} ${wordResult} for '${searchTerm}'`;
+}
 
-  if (getCurrentCategory() !== null) {
-    const categoryFound = getCategories().find(
-      (category) => category.slug === getCurrentCategory(),
-    );
+export function categoryTitleConstructor() {
+  const categoryFound = getCategories().find(
+    (category) => category.slug === getCurrentCategory(),
+  );
 
-    return categoryFound.name;
-  }
-
-  if (window.location.pathname === '/bookmarks') {
-    return 'Bookmarked videos';
-  }
-
-  return 'Recommended for you';
+  return categoryFound.name;
 }

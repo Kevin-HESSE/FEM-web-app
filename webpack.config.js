@@ -23,6 +23,8 @@ Encore
      */
   .addEntry('app', './assets/app.js')
   .addEntry('videos', './assets/js/videos.js')
+  .addEntry('categories', './assets/js/categories.js')
+  .addEntry('bookmark', './assets/js/bookmark.js')
   .addEntry('login', './assets/js/login.js')
   .addEntry('register', './assets/js/register.js')
   .addEntry('resetPassword', './assets/js/reset.js')

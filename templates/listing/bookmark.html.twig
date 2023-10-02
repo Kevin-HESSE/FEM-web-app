@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Bookmark
+{% endblock %}
+
+{% block body %}
+    <div id="app"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        window.currentUser = "{{ currentUser }}";
+        window.categories = {{ categories|jsonld }};
+        window.currentCategory = null;
+        window.isBookmarked = true;
+    </script>
+
+    {{ encore_entry_script_tags('bookmark') }}
+{% endblock %}

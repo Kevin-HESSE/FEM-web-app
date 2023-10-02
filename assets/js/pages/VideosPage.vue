@@ -1,76 +1,30 @@
 <template>
-  <MainLayout>
-    <form class="form-filter">
-      <button type="submit">
-        <img src="/build/images/icon-search.svg" alt="Search">
-      </button>
-      <SearchInput
-        label="Search for movies or TV series"
-        @search-video="handleInput"
-      />
-    </form>
-
-    <LoadingComponent v-show="isLoading" />
-
-    <CarouselComponent v-show="showTrendingList" :videos-list="trendingList">
+  <VideosListLayout>
+    <CarouselComponent v-show="videoStore.showList" :videos-list="trendingList">
       Trending
     </CarouselComponent>
-    <VideosList v-show="!isLoading" :videos-list="videosList">
-      {{ titleList }}
-    </VideosList>
-  </MainLayout>
+    <VideosSection v-show="videoStore.showList" :videos-list="videoList">
+      Recommended for you
+    </VideosSection>
+  </VideosListLayout>
 </template>
 
 <script setup>
-import { computed, onBeforeMount, ref } from 'vue';
-import { getVideos } from '@/services/video-service';
-import VideosList from '@/components/organisms/VideosList.vue';
-import SearchInput from '@/components/atoms/form/SearchInputComponent.vue';
-import { sectionTitleConstructor } from '@/helpers/sectionTitleConstructor';
-import LoadingComponent from '@/components/atoms/LoadingComponent.vue';
+import { onBeforeMount, ref } from 'vue';
+import VideosSection from '@/components/organisms/VideosSection.vue';
 import CarouselComponent from '@/components/molecules/CarouselComponent.vue';
-import MainLayout from '@/layout/MainLayout.vue';
+import { useVideoStore } from '@/store/VideosStore';
+import VideosListLayout from '@/layout/VideosListLayout.vue';
 
-const videosList = ref([]);
+const videoStore = useVideoStore();
 const trendingList = ref([]);
-const searchTerm = ref('');
-const isLoading = ref(true);
-
-async function loadVideos() {
-  let videosData;
-
-  try {
-    videosData = await getVideos(searchTerm.value);
-  } catch (e) {
-    console.log(e);
-
-    return;
-  }
-
-  // eslint-disable-next-line consistent-return
-  return videosData.data['hydra:member'];
-}
+const videoList = ref([]);
 
 onBeforeMount(async () => {
-  videosList.value = await loadVideos();
+  await videoStore.fetchAllVideos();
 
-  trendingList.value = videosList.value.filter((video) => video.isTrending);
-
-  isLoading.value = false;
+  trendingList.value = videoStore.list.filter((video) => video.isTrending);
+  videoList.value = videoStore.list.filter((video) => !video.isTrending);
 });
-
-const showTrendingList = computed(() => searchTerm.value === '' && window.location.pathname === '/' && !isLoading.value);
-
-const titleList = computed(() => sectionTitleConstructor(videosList.value, searchTerm.value));
-
-async function handleInput(term) {
-  searchTerm.value = term;
-
-  isLoading.value = true;
-
-  videosList.value = await loadVideos();
-
-  isLoading.value = false;
-}
 
 </script>
