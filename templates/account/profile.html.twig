@@ -1,9 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ parent() }} - Homepage
-{% endblock %}
-
 {% block body %}
     <div id="app"></div>
 {% endblock %}
@@ -12,8 +8,8 @@
     {{ parent() }}
 
     <script>
-        window.currentCategory = null
+      window.demo = "{{ isDemo }}"
     </script>
 
-    {{ encore_entry_script_tags('videos') }}
+    {{ encore_entry_script_tags('profile') }}
 {% endblock %}

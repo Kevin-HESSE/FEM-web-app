@@ -12,6 +12,11 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+
+        <script>
+          window.currentUser = "{{ currentUser }}"
+          window.categories = {{ categories|jsonld }}
+        </script>
         {% endblock %}
     </head>
     <body>

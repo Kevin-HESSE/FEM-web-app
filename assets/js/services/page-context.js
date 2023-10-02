@@ -16,5 +16,5 @@ export function getCurrentCategory() {
 }
 
 export function isDemo() {
-  return window.demo;
+  return window.demo === '1';
 }

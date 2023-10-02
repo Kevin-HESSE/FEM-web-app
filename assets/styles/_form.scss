@@ -64,12 +64,30 @@ input[type='search']{
 }
 
 //Css section for auth form
-.form-auth{
+.form, .form-auth {
   align-self: start;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1.5rem;
+
+  @media (max-width: $tablet-breakpoint - 1px) {
+    width: 100%;
+  }
+}
+
+.form {
+  margin: 1.5rem 0 0 0;
+
+  & .btn {
+    @media (min-width: $desktop-breakpoint) {
+      width: 400px;
+    }
+  }
+}
+
+.form-auth{
   gap: 2.5rem;
 
   background-color: $header-background;
@@ -77,7 +95,6 @@ input[type='search']{
 
   @media (max-width: $tablet-breakpoint - 1px) {
     padding: 1.5rem;
-    width: 100%;
   }
 
   @media (min-width: $tablet-breakpoint) {
@@ -92,11 +109,6 @@ input[type='search']{
   &__cta{
     text-align: center;
   }
-
-  &__field{
-    position: relative;
-  }
-
 }
 
 .btn{

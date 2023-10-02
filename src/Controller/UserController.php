@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\User;
 use App\Entity\Video;
 use App\Model\FilmInformation;
+use App\Repository\CategoryRepository;
 use App\Repository\VideoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,5 +55,17 @@ class UserController extends AbstractController
         return $this->json([
             'message' => $message
         ], status: $status);
+    }
+
+    #[Route('/profile', name: 'app_user_profile')]
+    public function profile(IriConverterInterface $iriConverter, CategoryRepository $categoryRepository): Response
+    {
+        $user = $this->getUser();
+
+        return $this->render('account/profile.html.twig', [
+            'currentUser' => $iriConverter->getIriFromResource($user),
+            'categories' => $categoryRepository->findAll(),
+            'isDemo' => (bool)$this->getParameter('app.demo')
+        ]);
     }
 }

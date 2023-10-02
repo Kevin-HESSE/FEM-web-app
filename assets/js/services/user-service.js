@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { getCurrentUser } from '@/services/page-context';
 
-export function getBookmarkedVideo() {
-  return axios(getCurrentUser());
+export async function getUserInfo() {
+  const response = await axios(getCurrentUser());
+
+  return response.data;
 }
 
 /**
@@ -20,4 +22,18 @@ export async function getUserByEmail(email) {
   });
 
   return response.data['hydra:totalItems'] === 1;
+}
+
+export async function updatedPassword(password) {
+  try {
+    return await axios.patch(getCurrentUser(), {
+      password,
+    }, {
+      headers: {
+        'Content-Type': 'application/merge-patch+json',
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }

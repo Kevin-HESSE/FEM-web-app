@@ -5,6 +5,7 @@
 @use 'sidebar';
 @use "video_content";
 @use "swiper";
+@use "profile";
 @import "var";
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap');
@@ -13,6 +14,10 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+}
+
+li{
+    list-style: none;
 }
 
 body{
@@ -69,18 +74,8 @@ button, input{
 }
 
 .img-avatar{
-    width: 24px;
-    height: 24px;
-
-    @media (min-width: 450px) and (max-width: $desktop-breakpoint - 1px) {
-        width: 32px;
-        height: 32px;
-    }
-
-    @media (min-width: $desktop-breakpoint) {
-        width: 40px;
-        height: 40px;
-    }
+    width: 20px;
+    height: 20px;
 }
 
 .title{

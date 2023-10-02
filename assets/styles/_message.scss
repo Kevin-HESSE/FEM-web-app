@@ -3,9 +3,13 @@
 .message{
   padding: 1rem;
   border-radius: 10px;
+  color: white;
 
   &.error{
     background-color: red;
-    color: white;
+  }
+
+  &.success{
+    background-color: green;
   }
 }

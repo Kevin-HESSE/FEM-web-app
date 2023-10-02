@@ -12,8 +12,6 @@
     {{ parent() }}
 
     <script>
-        window.currentUser = "{{ currentUser }}";
-        window.categories = {{ categories|jsonld }};
         window.currentCategory = null;
         window.isBookmarked = true;
     </script>

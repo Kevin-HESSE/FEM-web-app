@@ -7,41 +7,49 @@
       </button>
     </div>
     <nav class="nav">
-      <LinkComponent url="/">
-        <img src="/build/images/icon-nav-home.svg" alt="Homepage">
-        <p>Home</p>
-      </LinkComponent>
-      <LinkComponent
-        v-for="category in categories"
-        :key="category['@id']"
-        :url="`/category/${category.slug}`"
-      >
-        <img
-          :src="`/build/images/icon-nav-${ category.slug }.svg`"
-          :alt="`List of all ${category.name.toLowerCase()}`"
+      <ul class="nav-wrapper">
+        <li>
+          <LinkComponent url="/">
+            <img src="/build/images/icon-nav-home.svg" alt="Homepage">
+            <p>Home</p>
+          </LinkComponent>
+        </li>
+        <li
+          v-for="category in categories"
+          :key="category['@id']"
         >
-        <p>{{ category.name }}</p>
-      </LinkComponent>
-      <LinkComponent url="/bookmarks">
-        <img src="/build/images/icon-nav-bookmark.svg" alt="List of all bookmarks videos">
-        <p>Bookmark</p>
-      </LinkComponent>
-      <LinkComponent url="/logout">
-        <img src="/build/images/icon-logout.svg" alt="Disconnect from the site">
-        <p>Disconnect</p>
-      </LinkComponent>
+          <LinkComponent
+            :url="`/category/${category.slug}`"
+          >
+            <img
+              :src="`/build/images/icon-nav-${ category.slug }.svg`"
+              :alt="`List of all ${category.name.toLowerCase()}`"
+            >
+            <p>{{ category.name }}</p>
+          </LinkComponent>
+        </li>
+        <li>
+          <LinkComponent url="/bookmarks">
+            <img src="/build/images/icon-nav-bookmark.svg" alt="List of all bookmarks videos">
+            <p>Bookmark</p>
+          </LinkComponent>
+        </li>
+        <li>
+          <AccountNavigation />
+        </li>
+      </ul>
     </nav>
 
     <button class="banner--cta desktop" @click="$emit('extend-sidebar', !isExtended)">
       <img src="/build/images/icon-arrow.svg" alt="Extend the sidebar">
     </button>
-    <!--      <img class="img-avatar" src="/build/images/image-avatar.png" alt="Avatar of the user">-->
   </header>
 </template>
 
 <script setup>
 import LinkComponent from '@/components/atoms/LinkComponent.vue';
 import { getCategories } from '@/services/page-context';
+import AccountNavigation from '@/components/molecules/AccountNavigation.vue';
 
 const categories = getCategories();
 defineEmits(['extend-sidebar']);
