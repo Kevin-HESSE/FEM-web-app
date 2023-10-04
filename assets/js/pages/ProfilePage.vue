@@ -24,7 +24,7 @@
       <form class="form" @submit.prevent="handleChangePassword">
         <InformationMessageComponent
           v-if="message"
-          :is-error="isError"
+          :is-success="isSuccess"
         >
           {{ message }}
         </InformationMessageComponent>
@@ -63,7 +63,7 @@ const plainPassword = ref('');
 const confirmation = ref('');
 
 /** Variable needed to handle the reset password form */
-const isError = ref(false);
+const isSuccess = ref(false);
 const message = ref('');
 
 const accountStatus = computed(() => (userInfo.value.isVerified ? 'Verified' : 'Need to be verified'));
@@ -72,27 +72,29 @@ onBeforeMount(async () => {
   userInfo.value = await getUserInfo();
 });
 
+/**
+ * Handle the password change form.
+ * @return {Promise<void>}
+ */
 async function handleChangePassword() {
   if (!userInfo.value.isVerified) {
-    isError.value = true;
     message.value = 'Please verify your email first';
     return;
   }
 
   if (plainPassword.value !== confirmation.value) {
-    isError.value = true;
     message.value = "The two password doesn't correspond";
     return;
   }
 
   if (userInfo.value.email === 'toto@test.io' || userInfo.value.email === 'tata@test.io') {
-    isError.value = true;
-    message.value = "This password of this address email can't be changed";
+    isSuccess.value = true;
+    message.value = "The password of this email address can't be changed";
     return;
   }
 
   const response = await updatedPassword(plainPassword.value);
-  isError.value = response.status !== 200;
+  isSuccess.value = response.status === 200;
   message.value = response.status !== 200 ? 'A server error has occured, try later.' : 'Password has been updated';
   plainPassword.value = '';
   confirmation.value = '';

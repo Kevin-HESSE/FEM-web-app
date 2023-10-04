@@ -4,9 +4,9 @@
 
     <LoadingComponent v-show="videoStore.isLoading" />
 
-    <slot/>
+    <slot v-if="!showSearch"/>
 
-    <VideosSection v-show="showSearch" :videos-list="videoStore.list">
+    <VideosSection v-else-if="showSearch" :videos-list="videoStore.list">
       {{ titleList }}
     </VideosSection>
   </MainLayout>
@@ -24,7 +24,7 @@ import { searchTitleConstructor } from '@/helpers/sectionTitleConstructor';
 
 const videoStore = useVideoStore();
 
-const showSearch = computed(() => videoStore.searchTerm !== '' && !videoStore.isLoading);
+const showSearch = computed(() => (videoStore.searchTerm !== '' || videoStore.list.length === 0) && !videoStore.isLoading);
 const titleList = computed(() => searchTitleConstructor(videoStore.list, videoStore.searchTerm));
 
 </script>

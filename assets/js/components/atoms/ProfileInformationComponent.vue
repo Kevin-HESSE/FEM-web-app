@@ -9,11 +9,11 @@
 defineProps({
   label: {
     type: String,
-    required: true
+    required: true,
   },
   userInfo: {
     type: String,
-    required: true
+    required: true,
   },
 });
 </script>

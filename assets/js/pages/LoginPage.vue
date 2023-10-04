@@ -5,9 +5,9 @@
   >
     <h1>Login</h1>
 
-    <div v-if="error" class="message error">
-      {{ error }}
-    </div>
+    <InformationMessageComponent v-if="message">
+      {{ message }}
+    </InformationMessageComponent>
 
     <div class="form-auth__input">
       <BaseInput
@@ -43,10 +43,12 @@
 import { ref } from 'vue';
 import BaseInput from '@/components/atoms/form/BaseInputComponent.vue';
 import { isDemo } from '@/services/page-context';
+import InformationMessageComponent from '@/components/atoms/form/InformationMessageComponent.vue';
+import { loginUser } from '@/services/user-service';
 
 const email = ref('');
 const password = ref('');
-const error = ref('');
+const message = ref('');
 const demo = isDemo();
 
 const handleEmailCompletion = () => {
@@ -58,30 +60,24 @@ const handlePasswordCompletion = () => {
 };
 
 const handleSubmit = async () => {
+  let response;
+
   try {
-    // const response = await axios(options);
-    const response = await fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email.value,
-        password: password.value,
-      }),
+    response = await loginUser({
+      email: email.value,
+      password: password.value,
     });
-
-    if (!response.ok) {
-      const data = await response.json();
-      error.value = data.error;
-
-      console.log(error.value);
-      return;
-    }
-
-    window.location.href = '/';
   } catch (e) {
-    console.log(e);
+    message.value = 'An error has occurred. Please try again.';
+    return;
   }
+
+  if (!response.ok) {
+    const error = await response.json();
+    message.value = error.error;
+    return;
+  }
+
+  window.location.href = '/';
 };
 </script>

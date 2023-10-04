@@ -8,6 +8,10 @@ import { getCategories, getCurrentCategory } from '@/services/page-context';
  * @return {string}
  */
 export function searchTitleConstructor(videosList, searchTerm) {
+  if (window.location.pathname === '/bookmarks' && videosList.length === 0) {
+    return 'No bookmarked videos found. Visit different categories to add some.';
+  }
+
   if (videosList.length === 0) {
     return 'Sorry, we found no videos !';
   }

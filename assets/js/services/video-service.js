@@ -21,6 +21,12 @@ export function getVideos(searchTerm) {
   });
 }
 
+/**
+ * Update if the video is bookmarked or not
+ * @param {String} method
+ * @param {Number} videoId
+ * @return {Promise<axios.AxiosResponse<any>>|void}
+ */
 export function updateBookmark(method, videoId) {
   if (method === 'post') {
     return axios.post(`/api/videos/${videoId}/bookmark`, {

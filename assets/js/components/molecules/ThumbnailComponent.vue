@@ -1,12 +1,12 @@
 <template>
-  <div v-if="showInBookmark" class="thumbnail">
+  <div class="thumbnail">
     <PictureComponent :is-trending="isTrending" :videoItem="videoItem" />
 
     <BookmarkFlagComponent :is-bookmarked="isBookmarked" @update-bookmark="handleUpdateBookmark"/>
 
     <div class="thumbnail__description">
       <p class="thumbnail__description-information">
-        2019
+        {{ yearRelease }}
         <span class="category">
           <img src="/build/images/icon-nav-movies.svg" alt="Icon of movies">
           {{ videoItem.category.name}}
@@ -19,11 +19,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import PictureComponent from '@/components/atoms/PictureComponent.vue';
 import BookmarkFlagComponent from '@/components/atoms/BookmarkFlagComponent.vue';
 import { getCurrentUser } from '@/services/page-context';
-import { updateBookmark } from '@/services/video-service';
+import { useVideoStore } from '@/store/VideosStore';
 
 const props = defineProps({
   videoItem: {
@@ -36,8 +36,15 @@ const props = defineProps({
   },
 });
 
+const store = useVideoStore();
+
+const yearRelease = computed(() => {
+  const date = new Date(props.videoItem.releaseAt);
+
+  return date.getFullYear();
+});
+
 const isBookmarked = ref(false);
-const showInBookmark = ref(true);
 
 onMounted(() => {
   const currentUser = getCurrentUser();
@@ -48,11 +55,7 @@ onMounted(() => {
 async function handleUpdateBookmark() {
   const method = isBookmarked.value ? 'delete' : 'post';
   isBookmarked.value = !isBookmarked.value;
-  await updateBookmark(method, props.videoItem.id);
-
-  if (method === 'delete' && window.location.pathname === '/bookmarks') {
-    showInBookmark.value = false;
-  }
+  await store.removeFromBookmark(method, props.videoItem.id);
 }
 
 </script>

@@ -65,9 +65,13 @@ const isSuccess = ref(false);
 const isLoading = ref(false);
 const message = ref('');
 
+/**
+ * Handle the register form by checking field.
+ * @return {Promise<void>}
+ */
 async function handleSubmit() {
   if (plainPassword.value !== confirmation.value || plainPassword.value === '') {
-    message.value = 'Please verify all password matches.';
+    message.value = 'Please verify all passwords matches.';
 
     return;
   }
@@ -78,22 +82,35 @@ async function handleSubmit() {
     return;
   }
 
-  const isUserExist = await getUserByEmail(email.value);
+  try {
+    const isUserExist = await getUserByEmail(email.value);
 
-  if (isUserExist) {
-    message.value = 'An account already exist.';
+    if (isUserExist) {
+      message.value = 'An account already exist.';
 
+      return;
+    }
+  } catch (e) {
+    message.value = 'An error has occurred. Please try again.';
     return;
   }
 
   message.value = 'User waiting for creation';
   isLoading.value = true;
 
-  const createdUser = await createUser({
-    email: email.value,
-    username: username.value,
-    plainPassword: plainPassword.value,
-  });
+  let createdUser;
+
+  try {
+    createdUser = await createUser({
+      email: email.value,
+      username: username.value,
+      plainPassword: plainPassword.value,
+    });
+  } catch (e) {
+    isLoading.value = false;
+    message.value = 'An error has occured. Please try again later';
+    return;
+  }
 
   if (createdUser.status !== 201) {
     isLoading.value = false;
