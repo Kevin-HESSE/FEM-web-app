@@ -3,18 +3,22 @@
 
     <form
       v-if="!formSubmit"
-      @submit.prevent="handleSubmit"
+      method="post"
       class="form-auth">
 
-      <ErrorMessage v-show="isError">
+      <InformationMessageComponent
+        v-show="isError"
+        :is-success="isError"
+      >
         {{ message }}
-      </ErrorMessage>
+      </InformationMessageComponent>
 
       <h1>Reset your password</h1>
 
       <div class="form-auth__input">
         <BaseInput
           v-model="email"
+          name="email"
           label="Email address"
           type="email"
           required
@@ -45,8 +49,8 @@ import { ref } from 'vue';
 import BaseInput from '@/components/atoms/form/BaseInputComponent.vue';
 import { emailVerifier } from '@/helpers/emailVerifier';
 import { getUserByEmail } from '@/services/user-service';
-import ErrorMessage from '@/components/atoms/form/ErrorMessageComponent.vue';
-import MessageComponent from '@/components/demo/MessageComponent.vue';
+import MessageComponent from '@/components/demo/DemoMessageComponent.vue';
+import InformationMessageComponent from '@/components/atoms/form/InformationMessageComponent.vue';
 
 const email = ref('');
 const isError = ref(false);
@@ -55,15 +59,12 @@ const formSubmit = ref(false);
 
 async function handleSubmit() {
   if (email.value === '' || !emailVerifier(email.value)) {
-    isError.value = true;
     message.value = 'Please enter a valid email address';
 
     return;
   }
 
-  isError.value = !await getUserByEmail(email.value);
-
-  if (isError.value) {
+  if (!await getUserByEmail(email.value)) {
     message.value = 'Email invalid';
 
     return;

@@ -4,27 +4,6 @@
 
 {% block body %}
     <div id="app"></div>
-{#    {% for flash_error in app.flashes('verify_email_error') %}#}
-{#        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>#}
-{#    {% endfor %}#}
-
-{#    <form action="{{ path(app.current_route) }}" method="post" class="form-auth">#}
-{#        <h1>Sign Up</h1>#}
-
-{#        <div class="form-auth__input" >#}
-{#            {{ component('inputField', { type: 'email', field: registrationForm.email}) }}#}
-
-{#            {% for password in registrationForm.plainPassword %}#}
-{#                {{ component('inputField', {type: 'password', field: password}) }}#}
-{#            {% endfor %}#}
-
-{#            {{ form_rest(registrationForm) }}#}
-{#        </div>#}
-{#        <div class="form-auth__cta">#}
-{#            <button class="btn">Create an account</button>#}
-{#            <p>Already have an account? <a class="cta" href="{{ path('app_auth_login') }}">Login</a></p>#}
-{#        </div>#}
-{#    </form>#}
 {% endblock %}
 
 {% block javascripts %}

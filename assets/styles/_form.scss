@@ -6,7 +6,9 @@ input{
   font-size: 1rem;
 }
 
-input[type='email'], input[type='password']{
+input[type='email'],
+input[type='password'],
+input[type='text'] {
   outline-style: none;
   box-shadow: none;
   border-bottom: 1px solid $secondary-color;

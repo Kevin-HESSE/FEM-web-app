@@ -22,13 +22,12 @@
     <section class="profile-section">
       <h2>Change password</h2>
       <form class="form" @submit.prevent="handleChangePassword">
-        <div v-if="error" class="message error">
-          {{ error }}
-        </div>
-        <div v-if="formSubmit" class="message success">
-          <p>Password has been changed</p>
-          <p v-if="demo">However it is a demo. No data has been updated.</p>
-        </div>
+        <InformationMessageComponent
+          v-if="message"
+          :is-error="isError"
+        >
+          {{ message }}
+        </InformationMessageComponent>
         <BaseInputComponent
           v-model="plainPassword"
           label="New password"
@@ -55,14 +54,18 @@ import MainLayout from '@/layout/MainLayout.vue';
 import { getUserInfo, updatedPassword } from '@/services/user-service';
 import ProfileInformationComponent from '@/components/atoms/ProfileInformationComponent.vue';
 import BaseInputComponent from '@/components/atoms/form/BaseInputComponent.vue';
-import { isDemo } from '@/services/page-context';
+import InformationMessageComponent from '@/components/atoms/form/InformationMessageComponent.vue';
 
 const userInfo = ref({});
+
+/** Variable neeeded for the reset password form*/
 const plainPassword = ref('');
 const confirmation = ref('');
-const error = ref('');
-const formSubmit = ref(false);
-const demo = isDemo();
+
+/** Variable needed to handle the reset password form */
+const isError = ref(false);
+const message = ref('');
+
 const accountStatus = computed(() => (userInfo.value.isVerified ? 'Verified' : 'Need to be verified'));
 
 onBeforeMount(async () => {
@@ -71,24 +74,26 @@ onBeforeMount(async () => {
 
 async function handleChangePassword() {
   if (!userInfo.value.isVerified) {
-    error.value = 'Please verify your email first';
+    isError.value = true;
+    message.value = 'Please verify your email first';
     return;
   }
 
   if (plainPassword.value !== confirmation.value) {
-    error.value = "The two password doesn't correspond";
+    isError.value = true;
+    message.value = "The two password doesn't correspond";
     return;
   }
 
-  if (!demo) {
-    const response = await updatedPassword(plainPassword.value);
-    formSubmit.value = response.status === 200;
-    error.value = response.status !== 200 ? 'A server error has occured, try later.' : '';
-  } else {
-    error.value = '';
-    formSubmit.value = true;
+  if (userInfo.value.email === 'toto@test.io' || userInfo.value.email === 'tata@test.io') {
+    isError.value = true;
+    message.value = "This password of this address email can't be changed";
+    return;
   }
 
+  const response = await updatedPassword(plainPassword.value);
+  isError.value = response.status !== 200;
+  message.value = response.status !== 200 ? 'A server error has occured, try later.' : 'Password has been updated';
   plainPassword.value = '';
   confirmation.value = '';
 }

@@ -8,8 +8,10 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
 use App\State\UserHashPasswordProcessor;
+use App\State\UserStateProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -27,12 +29,17 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     operations: [
         new Get(),
         new GetCollection(),
+        new Post(
+            denormalizationContext: ['groups' => ['user:write']],
+            processor: UserStateProcessor::class
+        ),
         new Patch(
+            denormalizationContext: ['groups' => ['user:patch:write']],
             processor: UserHashPasswordProcessor::class
         )
     ],
     normalizationContext: ['groups' => ['user:read']],
-    denormalizationContext: ['groups' => ['user:write']]
+
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -42,13 +49,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true, nullable: true)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
     private ?string $username = null;
 
     #[ORM\Column]
     private array $roles = [];
 
-    #[Groups(['user:write'])]
+    #[Groups(['user:write', 'user:patch:write'])]
     #[SerializedName('password')]
     private ?string $plainPassword = null;
 
@@ -59,7 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: Types::TEXT, unique: true)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
     #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private ?string $email = null;
 

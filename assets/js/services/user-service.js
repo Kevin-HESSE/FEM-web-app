@@ -37,3 +37,16 @@ export async function updatedPassword(password) {
     console.log(e);
   }
 }
+
+export async function createUser(userData) {
+  try {
+    return await axios.post('/api/users', {
+      email: userData.email,
+      username: userData.username,
+      password: userData.plainPassword,
+    });
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}

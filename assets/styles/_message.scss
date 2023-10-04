@@ -12,4 +12,12 @@
   &.success{
     background-color: green;
   }
+
+  &.notification{
+    background-color: #9b9b4c;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
 }

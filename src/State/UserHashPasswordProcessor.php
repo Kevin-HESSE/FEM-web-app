@@ -15,7 +15,6 @@ class UserHashPasswordProcessor implements ProcessorInterface
     public function __construct(
         #[Autowire(service: PersistProcessor::class )] private readonly ProcessorInterface $processor,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private readonly Security $security,
     )
     {
     }
@@ -24,13 +23,10 @@ class UserHashPasswordProcessor implements ProcessorInterface
     {
        assert($data instanceof User);
 
-       /** @var User $currentUser */
-       $currentUser = $this->security->getUser();
-
-       if($data->getPlainPassword() && $data->getEmail() === $currentUser->getEmail()){
+       if($data->getPlainPassword()){
            $data->setPassword($this->userPasswordHasher->hashPassword($data, $data->getPlainPassword()));
        }
 
-        $this->processor->process($data, $operation, $uriVariables, $context);
+       $this->processor->process($data, $operation, $uriVariables, $context);
     }
 }

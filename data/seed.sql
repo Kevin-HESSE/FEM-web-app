@@ -57,7 +57,7 @@ INSERT INTO
     "user" (id, username, email, password, roles, is_verified)
     VALUES
         (nextval('user_id_seq'), 'toto', 'toto@test.io', '$2y$13$h10aCprVAkF8V6.IhNGXQOUbKTATyeOxZ/8vD6OpSWSizSEpDyLc2', '{}', true),
-        (nextval('user_id_seq'), 'tata', 'tata@test.io', '$2y$13$h10aCprVAkF8V6.IhNGXQOUbKTATyeOxZ/8vD6OpSWSizSEpDyLc2', '{}', true);
+        (nextval('user_id_seq'), 'tata', 'tata@test.io', '$2y$13$h10aCprVAkF8V6.IhNGXQOUbKTATyeOxZ/8vD6OpSWSizSEpDyLc2', '{}', false);
 
 INSERT INTO
     user_video

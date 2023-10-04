@@ -3,6 +3,7 @@
     <input
       :placeholder="label"
       :value="modelValue"
+      :name="name"
       @input="$emit('update:modelValue', $event.target.value)"
       v-bind="$attrs"
     />
@@ -19,6 +20,9 @@ defineProps({
   modelValue: {
     type: String,
     default: '',
+  },
+  name: {
+    type: String,
   },
 });
 
