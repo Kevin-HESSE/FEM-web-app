@@ -33,7 +33,7 @@
   <div v-if="demo" class="demo">
     <p>You can autocomplete the form with the following information : </p>
     <ul>
-      <li>Email : <span class="cta" @click="handleEmailCompletion">toto@test.io</span></li>
+      <li>Email : <span class="cta" @click="handleEmailCompletion">admin@entertainment.io</span></li>
       <li>Password : <span class="cta" @click="handlePasswordCompletion">archive</span></li>
     </ul>
   </div>
@@ -52,7 +52,7 @@ const message = ref('');
 const demo = isDemo();
 
 const handleEmailCompletion = () => {
-  email.value = 'toto@test.io';
+  email.value = 'admin@entertainment.io';
 };
 
 const handlePasswordCompletion = () => {

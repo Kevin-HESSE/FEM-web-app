@@ -97,11 +97,6 @@
 
 .thumbnail__image{
   border-radius: 10px;
-
-  @media (max-width: $desktop-breakpoint - 1px) {
-    width: var(--width-thumbnail);
-    height: var(--height-thumbnail);
-  }
 }
 
 .thumbnail__bookmark{

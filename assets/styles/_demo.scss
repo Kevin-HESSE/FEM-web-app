@@ -19,12 +19,6 @@
     padding: 2rem;
   }
 
-  & ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-  }
-
   & li {
     list-style-type: none;
   }

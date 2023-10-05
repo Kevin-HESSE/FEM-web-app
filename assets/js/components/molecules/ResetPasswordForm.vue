@@ -63,7 +63,7 @@ function checkUserInfo() {
   }
 
   /** Section to avoid the change of password from test user inside the profile section */
-  if (props.userInfo.email === 'toto@test.io' || props.userInfo.email === 'tata@test.io') {
+  if (props.userInfo.email === 'admin@entertainment.io' || props.userInfo.email === 'test@entertainment.io') {
     isSuccess.value = true;
     message.value = "The password of this email address can't be changed";
     return false;
