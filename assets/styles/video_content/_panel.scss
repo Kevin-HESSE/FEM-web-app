@@ -35,9 +35,15 @@
   grid-template-columns: repeat(auto-fill, minmax(var(--width-thumbnail), auto));
   justify-content: space-between;
   row-gap: 2rem;
-  //
+  column-gap: 1.5rem;
+
+  @media (min-width: $tablet-breakpoint) {
+
+    grid-template-columns: repeat(auto-fill, minmax(var(--width-thumbnail), 1fr));
+  }
+
   @media (min-width: $desktop-breakpoint) {
-    column-gap: 1.5rem;
+
   }
 }
 

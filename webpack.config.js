@@ -28,7 +28,9 @@ Encore
   .addEntry('profile', './assets/js/profile.js')
   .addEntry('login', './assets/js/login.js')
   .addEntry('register', './assets/js/register.js')
-  .addEntry('resetPassword', './assets/js/reset.js')
+  .addEntry('resetRequestPassword', './assets/js/resetRequest.js')
+  .addEntry('resetFormPassword', './assets/js/resetForm.js')
+  .addEntry('error', './assets/js/error.js')
 
 // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()

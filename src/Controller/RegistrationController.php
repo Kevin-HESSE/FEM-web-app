@@ -36,34 +36,6 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(): Response
     {
-//        $form = $this->createForm(RegistrationFormType::class, $user);
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            // encode the plain password
-//            $user->setPassword(
-//                $userPasswordHasher->hashPassword(
-//                    $user,
-//                    $form->get('plainPassword')->getData()
-//                )
-//            );
-//
-//            $entityManager->persist($user);
-//            $entityManager->flush();
-//
-//            // generate a signed url and email it to the user
-//            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-//                (new TemplatedEmail())
-//                    ->from(new Address('admin@webapp.io', 'Movie web app bot'))
-//                    ->to($user->getEmail())
-//                    ->subject('Please Confirm your Email')
-//                    ->htmlTemplate('account/registration/confirmation_email.html.twig')
-//            );
-//
-//            $this->addFlash('check-email', 'Don\'t forget to verify your email address with the mail we send you !');
-//
-//            return $this->redirectToRoute('app_homepage');
-//        }
-
         return $this->render('account/registration/register.html.twig');
     }
 
@@ -84,9 +56,6 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('app_register');
         }
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_homepage');
     }

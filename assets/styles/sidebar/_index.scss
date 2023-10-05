@@ -18,7 +18,6 @@
     row-gap: 3rem;
 
     padding: 2rem 1.5rem;
-    border-radius: 0 20px 20px 0;
 
     transition: width 250ms;
   }
@@ -80,6 +79,10 @@
 
   &.is-active{
     filter: $filter-white;
+
+    & .img-avatar {
+      filter: invert(1);
+    }
   }
 
   &:hover:not(.is-active){

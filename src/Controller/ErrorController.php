@@ -6,19 +6,21 @@ use ApiPlatform\Api\IriConverterInterface;
 use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-class UserController extends AbstractController
+/**
+ * Replace the default Error Controller.
+ */
+class ErrorController extends AbstractController
 {
-    #[Route('/profile', name: 'app_user_profile')]
-    public function profile(IriConverterInterface $iriConverter, CategoryRepository $categoryRepository): Response
+    public function show(HttpExceptionInterface $exception, CategoryRepository $categoryRepository, IriConverterInterface $iriConverter): Response
     {
         $user = $this->getUser();
 
-        return $this->render('account/profile.html.twig', [
+        return $this->render('error.html.twig', [
             'currentUser' => $iriConverter->getIriFromResource($user),
             'categories' => $categoryRepository->findAll(),
-            'isDemo' => (bool)$this->getParameter('app.demo')
+            'statusCode' => $exception->getStatusCode(),
         ]);
     }
 }

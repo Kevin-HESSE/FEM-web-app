@@ -24,6 +24,14 @@ export function getCurrentCategory() {
 }
 
 /**
+ * Return the status code when it is passed by twig.
+ * @return {*|string|string}
+ */
+export function getStatusCode() {
+  return window.statusCode;
+}
+
+/**
  * Return the status of the application if it is under demo mode or not
  * @return {boolean}
  */

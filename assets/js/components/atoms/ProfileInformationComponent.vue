@@ -14,6 +14,7 @@ defineProps({
   userInfo: {
     type: String,
     required: true,
+    default: 'No data found',
   },
 });
 </script>

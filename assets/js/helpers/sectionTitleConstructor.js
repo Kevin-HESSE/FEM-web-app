@@ -8,7 +8,7 @@ import { getCategories, getCurrentCategory } from '@/services/page-context';
  * @return {string}
  */
 export function searchTitleConstructor(videosList, searchTerm) {
-  if (window.location.pathname === '/bookmarks' && videosList.length === 0) {
+  if (window.location.pathname === '/bookmarks' && videosList.length === 0 && searchTerm === '') {
     return 'No bookmarked videos found. Visit different categories to add some.';
   }
 
@@ -20,6 +20,10 @@ export function searchTitleConstructor(videosList, searchTerm) {
   return `Found ${videosList.length} ${wordResult} for '${searchTerm}'`;
 }
 
+/**
+ * Define the title of the videoList section inside CategoryPage.
+ * @return {*}
+ */
 export function categoryTitleConstructor() {
   const categoryFound = getCategories().find(
     (category) => category.slug === getCurrentCategory(),
