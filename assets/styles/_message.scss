@@ -14,10 +14,30 @@
   }
 
   &.notification{
-    background-color: #9b9b4c;
+    background-color: $header-background;
 
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
+  }
+
+  &.lost {
+    width: 100%;
+    margin: 1rem;
+    justify-content: center;
+
+    @media (min-width: $desktop-breakpoint) {
+      width: 600px;
+    }
+  }
+}
+
+.lost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &#app{
+    height: auto;
   }
 }

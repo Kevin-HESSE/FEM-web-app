@@ -1,20 +1,27 @@
 <template>
-  <MainLayout>
+  <div class="message notification lost">
     <h1>{{ errorTitle }}</h1>
 
     <p>{{ errorMessage }}</p>
-  </MainLayout>
+
+    <LinkComponent
+      url="/"
+    >
+      <img src="/build/images/icon-nav-home.svg">
+      <p>Back to the main page !</p>
+    </LinkComponent>
+  </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
-import MainLayout from '@/layout/MainLayout.vue';
 import { getStatusCode } from '@/services/page-context';
+import LinkComponent from '@/components/atoms/LinkComponent.vue';
 
 const statusCode = getStatusCode();
 
 const errorTitle = computed(() => {
-  if (statusCode === 404) {
+  if (statusCode === '404') {
     return 'Resource not found';
   }
 
@@ -22,7 +29,7 @@ const errorTitle = computed(() => {
 });
 
 const errorMessage = computed(() => {
-  if (statusCode === 404) {
+  if (statusCode === '404') {
     return 'The resource, you are looking for, seems to be nonexistent.';
   }
 

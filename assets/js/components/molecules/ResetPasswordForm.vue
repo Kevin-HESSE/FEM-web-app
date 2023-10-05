@@ -82,6 +82,8 @@ async function handleChangePassword() {
     const check = checkUserInfo();
 
     if (!check) {
+      plainPassword.value = '';
+      confirmation.value = '';
       return;
     }
   }
