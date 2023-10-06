@@ -2,7 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
+use App\State\UserHashPasswordProcessor;
+use App\State\UserStateProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -10,10 +19,28 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(
+            denormalizationContext: ['groups' => ['user:write']],
+            processor: UserStateProcessor::class
+        ),
+        new Patch(
+            denormalizationContext: ['groups' => ['user:patch:write']],
+            processor: UserHashPasswordProcessor::class
+        )
+    ],
+    normalizationContext: ['groups' => ['user:read']],
+
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -22,10 +49,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true, nullable: true)]
+    #[Groups(['user:read', 'user:write'])]
     private ?string $username = null;
 
     #[ORM\Column]
     private array $roles = [];
+
+    #[Groups(['user:write', 'user:patch:write'])]
+    #[SerializedName('password')]
+    private ?string $plainPassword = null;
 
     /**
      * @var string The hashed password
@@ -34,13 +66,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: Types::TEXT, unique: true)]
+    #[Groups(['user:read', 'user:write'])]
+    #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private ?string $email = null;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['user:read'])]
     private bool $isVerified = false;
 
     #[ORM\ManyToMany(targetEntity: Video::class, inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_video')]
+    #[Groups(['user:read'])]
     private Collection $bookmark;
 
     public function __construct()
@@ -130,7 +166,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isVerified(): bool
+    public function getIsVerified(): bool
     {
         return $this->isVerified;
     }
@@ -164,5 +200,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->bookmark->removeElement($bookmark);
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
     }
 }

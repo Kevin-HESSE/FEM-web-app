@@ -2,45 +2,94 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
 use App\Repository\VideoRepository;
+use App\State\BookmarkStateProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['video:read', 'video:item:read']]
+)]
+#[ApiResource(
+    uriTemplate: '/videos/{video_id}/bookmark',
+    operations: [
+        new Post(
+            processor: BookmarkStateProcessor::class
+        ),
+        new Delete(
+            processor: BookmarkStateProcessor::class
+        )
+    ],
+    uriVariables: [
+        'video_id' => new Link(fromClass: Video::class)
+    ],
+    denormalizationContext: ['groups' => ['video:post:bookmark']]
+)]
+#[ApiFilter(SearchFilter::class, properties: ['category.slug' => 'exact'])]
 class Video
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['video:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[ApiFilter(SearchFilter::class, strategy: 'ipartial')]
+    #[Groups(['video:read'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['video:read'])]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['video:read'])]
     private ?\DateTimeImmutable $releaseAt = null;
 
     #[ORM\Column]
+    #[Groups(['video:read'])]
+    #[ApiFilter(BooleanFilter::class)]
     private ?bool $isTrending = null;
+
+    #[Groups(['video:read'])]
+    private bool $isBookmarked = false;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'videos')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id' , nullable: false)]
+    #[Groups(['video:read'])]
     private ?Category $category = null;
 
     #[ORM\ManyToOne(targetEntity: Rating::class, inversedBy: 'videos')]
     #[ORM\JoinColumn(name: 'rating_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups(['video:read'])]
     private ?Rating $rating = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'bookmark')]
     #[ORM\JoinTable(name: 'user_video')]
+    #[Groups(['video:read', 'video:post:bookmark'])]
+    #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private Collection $users;
 
-    public function __construct()
+    public function __construct(#[CurrentUser] ?User $user = null)
     {
         $this->users = new ArrayCollection();
     }
@@ -86,7 +135,7 @@ class Video
         return $this;
     }
 
-    public function isTrending(): ?bool
+    public function getIsTrending(): ?bool
     {
         return $this->isTrending;
     }
@@ -130,9 +179,13 @@ class Video
         return $this->users;
     }
 
-    public function isBookmarked(): bool
+    public function getIsBookmarked(User $user): bool
     {
-        return !$this->users->isEmpty();
+        if($this->users->contains($user)){
+            $this->isBookmarked = true;
+        }
+
+        return $this->isBookmarked;
     }
 
     public function addUser(User $user): static

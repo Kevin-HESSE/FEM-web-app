@@ -12,58 +12,14 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+
+        <script>
+          window.currentUser = "{{ currentUser }}"
+          window.categories = {{ categories|jsonld }}
+        </script>
         {% endblock %}
     </head>
-    <body class="container">
-        <header class="header">
-            <img src="{{ asset('build/images/logo.svg') }}" alt="Logo">
-            <nav class="nav">
-                {{ component('navLink', {
-                    route: 'app_homepage',
-                    image: asset('build/images/icon-nav-home.svg'),
-                    description: 'Homepage',
-                }) }}
-                {{ component('navLink', {
-                    route: 'app_listing_categories',
-                    slug: 'movies',
-                    image: asset('build/images/icon-nav-movies.svg'),
-                    description: 'Movies',
-                }) }}
-                {{ component('navLink', {
-                    route: 'app_listing_categories',
-                    slug: 'tv-series',
-                    image: asset('build/images/icon-nav-tv-series.svg'),
-                    description: 'Series',
-                }) }}
-                {{ component('navLink', {
-                    route: 'app_listing_bookmark',
-                    image: asset('build/images/icon-nav-bookmark.svg'),
-                    description: 'Bookmark',
-                }) }}
-            </nav>
-            <div class="nav">
-                {{ component('navLink', {
-                    route: 'app_auth_logout',
-                    image: asset('build/images/icon-logout.svg'),
-                    description: 'Log out'
-                }) }}
-                <img class="img-avatar" src="{{ asset('build/images/image-avatar.png') }}" alt="Avatar">
-            </div>
-
-        </header>
-
-        <main class="content">
-
-
-            {% block search %}
-                <form action="{{ path(app.current_route) }}" method="post" class="form-filter">
-                    <button type="submit"><img src="{{ asset('build/images/icon-search.svg') }}" alt="Search"></button>
-                    <input type="search" id="filter" placeholder="{{ formPlaceholder }}" name="filter">
-                </form>
-            {% endblock %}
-
-            {% block body %}{% endblock %}
-        </main>
-
+    <body>
+        {% block body %}{% endblock %}
     </body>
 </html>

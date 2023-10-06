@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
@@ -26,8 +27,8 @@ class ResetPasswordController extends AbstractController
     use ResetPasswordControllerTrait;
 
     public function __construct(
-        private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager
+        private readonly ResetPasswordHelperInterface $resetPasswordHelper,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -37,20 +38,15 @@ class ResetPasswordController extends AbstractController
     #[Route('', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
-        $form = $this->createForm(ResetPasswordRequestFormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->getMethod() === 'POST') {
             return $this->processSendingPasswordResetEmail(
-                $form->get('email')->getData(),
+                $request->request->get('email'),
                 $mailer,
                 $translator
             );
         }
 
-        return $this->render('account/reset_password/request.html.twig', [
-            'requestForm' => $form->createView(),
-        ]);
+        return $this->render('account/reset_password/request.html.twig');
     }
 
     /**
@@ -74,7 +70,7 @@ class ResetPasswordController extends AbstractController
      * Validates and process the reset URL that the user clicked in their email.
      */
     #[Route('/reset/{token}', name: 'app_reset_password')]
-    public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, string $token = null): Response
+    public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, IriConverterInterface $iriConverter, string $token = null): Response
     {
         if ($token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
@@ -103,17 +99,14 @@ class ResetPasswordController extends AbstractController
         }
 
         // The token is valid; allow the user to change their password.
-        $form = $this->createForm(ChangePasswordFormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->getMethod() === 'POST') {
             // A password reset token should be used only once, remove it.
             $this->resetPasswordHelper->removeResetRequest($token);
 
             // Encode(hash) the plain password, and set it.
             $encodedPassword = $passwordHasher->hashPassword(
                 $user,
-                $form->get('plainPassword')->getData()
+                $request->request->get('plainPassword'),
             );
 
             $user->setPassword($encodedPassword);
@@ -126,7 +119,7 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('account/reset_password/reset.html.twig', [
-            'resetForm' => $form->createView(),
+            'currentUser' => $iriConverter->getIriFromResource($user),
         ]);
     }
 

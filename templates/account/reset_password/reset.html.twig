@@ -3,20 +3,31 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-    <form action="{{ path(app.current_route) }}" method="post" class="form-auth">
-        <h1>Reset your password</h1>
+    <div id="app"></div>
+{#    <form action="{{ path(app.current_route) }}" method="post" class="form-auth">#}
+{#        <h1>Reset your password</h1>#}
 
-        <div class="form-auth__input" >
-            {% for password in resetForm.plainPassword %}
-                {{ component('inputField', {type: 'password', field: password}) }}
-            {% endfor %}
+{#        <div class="form-auth__input" >#}
+{#            {% for password in resetForm.plainPassword %}#}
+{#                {{ component('inputField', {type: 'password', field: password}) }}#}
+{#            {% endfor %}#}
 
-            {{ form_rest(resetForm) }}
-        </div>
+{#            {{ form_rest(resetForm) }}#}
+{#        </div>#}
 
-        <div class="form-auth__cta">
-            <button class="btn btn-primary">Reset password</button>
-        </div>
+{#        <div class="form-auth__cta">#}
+{#            <button class="btn btn-primary">Reset password</button>#}
+{#        </div>#}
 
-    </form>
+{#    </form>#}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        window.currentUser = "{{ currentUser }}"
+    </script>
+
+    {{ encore_entry_script_tags('resetFormPassword') }}
 {% endblock %}

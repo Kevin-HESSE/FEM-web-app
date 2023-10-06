@@ -1,9 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - Bookmarks
+    {{ parent() }} - Bookmark
 {% endblock %}
 
 {% block body %}
-    {{ component('videoList', { title: 'Bookmarked', videos}) }}
+    <div id="app"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        window.currentCategory = null;
+        window.isBookmarked = true;
+    </script>
+
+    {{ encore_entry_script_tags('bookmark') }}
 {% endblock %}

@@ -6,12 +6,18 @@ input{
   font-size: 1rem;
 }
 
-input[type='email'], input[type='password']{
+input[type='email'],
+input[type='password'],
+input[type='text'] {
   outline-style: none;
   box-shadow: none;
   border-bottom: 1px solid $secondary-color;
 
   padding: 0 1rem 1.2rem 1rem;
+
+  &:focus{
+    border-color: #FFFFFF;
+  }
 }
 
 input[type='email']:focus + .form-auth__field-error{
@@ -60,12 +66,30 @@ input[type='search']{
 }
 
 //Css section for auth form
-.form-auth{
+.form, .form-auth {
   align-self: start;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1.5rem;
+
+  @media (max-width: $tablet-breakpoint - 1px) {
+    width: 100%;
+  }
+}
+
+.form {
+  margin: 1.5rem 0 0 0;
+
+  & .btn {
+    @media (min-width: $desktop-breakpoint) {
+      width: 400px;
+    }
+  }
+}
+
+.form-auth{
   gap: 2.5rem;
 
   background-color: $header-background;
@@ -73,7 +97,6 @@ input[type='search']{
 
   @media (max-width: $tablet-breakpoint - 1px) {
     padding: 1.5rem;
-    width: 100%;
   }
 
   @media (min-width: $tablet-breakpoint) {
@@ -88,11 +111,6 @@ input[type='search']{
   &__cta{
     text-align: center;
   }
-
-  &__field{
-    position: relative;
-  }
-
 }
 
 .btn{
@@ -100,11 +118,20 @@ input[type='search']{
   padding: 1rem 0;
   border-radius: 6px;
   background-color: $theme-color;
+  cursor: pointer;
 
   color: $content-color;
+
+  transition: 200ms ease-in;
+
+  &:hover{
+    background-color: $content-color;
+    color: $main-background;
+  }
 }
 
-.nav-cta{
+.cta{
+  cursor: pointer;
   margin-left: 0.5rem;
   color: $theme-color;
   text-decoration: none;

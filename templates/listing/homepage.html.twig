@@ -5,8 +5,15 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('videoList', { title: 'Trending', isTrending: true}) }}
+    <div id="app"></div>
+{% endblock %}
 
-    {{ component('videoList', { title: 'Recommanded for you', videos}) }}
+{% block javascripts %}
+    {{ parent() }}
 
+    <script>
+        window.currentCategory = null
+    </script>
+
+    {{ encore_entry_script_tags('videos') }}
 {% endblock %}

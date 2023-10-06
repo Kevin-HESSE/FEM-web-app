@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="app" class="lost"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        window.statusCode = "{{ statusCode }}"
+    </script>
+
+    {{ encore_entry_script_tags('error') }}
+{% endblock %}

@@ -1,0 +1,73 @@
+@import "var";
+
+.demo {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  background-color: $header-background;
+  border-radius: 20px;
+
+  @media (max-width: $tablet-breakpoint - 1px) {
+    padding: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: $tablet-breakpoint) {
+    width: 400px;
+    padding: 2rem;
+  }
+
+  & li {
+    list-style-type: none;
+  }
+
+}
+
+.demo .cta{
+  display: inline-block;
+  position: relative;
+
+  &:after, &:focus{
+    content: '';
+    position: absolute;
+    transform: scaleX(0);
+    overflow: hidden;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: $theme-color;
+    transform-origin: bottom right;
+    transition: transform 250ms;
+  }
+
+  &:hover:after, &:focus:after{
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+}
+
+.demo__description{
+  text-align: justify;
+  line-height: 1.50rem;
+}
+
+@mixin slideAnim($duration) {
+  &-enter-active {
+    transition: $duration ease-in $duration;
+  }
+  &-leave-active {
+    transition: $duration ease-in ;
+  }
+}
+
+.slide-out{
+  &-enter-from, &-leave-to{
+    opacity: 0;
+    transform: rotateY(90deg);
+  }
+
+  @include slideAnim(250ms)
+}

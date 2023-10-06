@@ -17,14 +17,7 @@
     <img src="{{ asset('build/images/logo.svg') }}" alt="Logo">
 
     <main class="auth">
-        {% for message in app.flashes('check-email') %}
-            <div class="alert is-success">
-                <p>{{ message }}</p>
-            </div>
-        {% endfor %}
-
         {% block body %}{% endblock %}
     </main>
-
 </body>
 </html>

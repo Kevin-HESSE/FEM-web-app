@@ -1,17 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - {{ title }}
+    {{ parent() }} - {{ currentCategory }}
 {% endblock %}
-
-{% block search %}
-    <form action="{{ path(app.current_route, { slug }) }}" method="post" class="form-filter">
-        <button type="submit"><img src="{{ asset('build/images/icon-search.svg') }}" alt="Search"></button>
-        <input type="search" id="filter" placeholder="{{ formPlaceholder }}" name="filter">
-    </form>
-{% endblock %}
-
 
 {% block body %}
-    {{ component('videoList', { title, videos}) }}
+    <div id="app"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        window.currentCategory = "{{ currentCategory }}"
+    </script>
+
+    {{ encore_entry_script_tags('categories') }}
 {% endblock %}

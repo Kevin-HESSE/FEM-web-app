@@ -1,6 +1,11 @@
 @use "form";
-@use "panel";
 @use "auth";
+@use "demo";
+@use "message";
+@use 'sidebar';
+@use "video_content";
+@use "swiper";
+@use "profile";
 @import "var";
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap');
@@ -11,6 +16,9 @@
     margin: 0;
 }
 
+li{
+    list-style: none;
+}
 
 body{
     background-color: $main-background;
@@ -29,20 +37,18 @@ button, input{
     background-color: transparent;
 }
 
-.container{
-    @media (min-width: $desktop-breakpoint) {
-        padding: 2rem;
-    }
+#app{
+    height: 100%;
+}
 
-    &-auth{
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 4fr;
-        align-items: center;
-        justify-items: center;
+.container-auth{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 20% 4fr;
+    align-items: center;
+    justify-items: center;
 
-        padding: 1.5rem;
-    }
+    padding: 1.5rem;
 }
 
 .content{
@@ -51,12 +57,14 @@ button, input{
     @media (max-width: $desktop-breakpoint - 1) {
         position: absolute;
         width: 100%;
-        top: 68px;
+        padding-bottom: calc(60px + 2.5rem);
     }
 
     @media (min-width: $desktop-breakpoint) {
-        padding: 2rem 0;
-        margin: 0 0 0 calc(96px + 3rem);
+        padding: 2rem;
+        margin-left: calc(80px + 2rem);
+
+        transition: margin-left 250ms;
     }
 
     & > :not(:last-child){
@@ -64,75 +72,10 @@ button, input{
     }
 
 }
-.header{
-    background-color: $header-background;
-    display: grid;
-    justify-items: center;
-    position: fixed;
-
-    @media (max-width: $desktop-breakpoint - 1px) {
-        top: 0;
-        left: 0;
-        z-index: 10;
-        width: 100%;
-        padding: 1rem;
-
-        align-items: center;
-        grid-template-columns: auto 1fr auto;
-        grid-template-rows: auto;
-    }
-
-    @media (min-width: $desktop-breakpoint) {
-        padding: 2rem 1.5rem;
-        border-radius: 20px;
-        width: 96px;
-        height: calc(100% - 4rem);
-
-        grid-template-rows: auto 1fr auto;
-        grid-template-columns: auto;
-        row-gap: 3rem;
-    }
-}
-
-.nav{
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-
-    @media (min-width: $desktop-breakpoint) {
-        flex-direction: column;
-    }
-}
 
 .img-avatar{
-    width: 24px;
-    height: 24px;
-
-    @media (min-width: 450px) and (max-width: $desktop-breakpoint - 1px) {
-        width: 32px;
-        height: 32px;
-    }
-
-    @media (min-width: $desktop-breakpoint) {
-        width: 40px;
-        height: 40px;
-    }
-}
-
-
-.nav__item{
-    //Equivalent to fill="#5A698F"
-    filter: invert(43%) sepia(37%) saturate(422%) hue-rotate(185deg) brightness(87%) contrast(89%);
-    transition: 250ms;
-
-    &.is-active{
-        filter: panel.$filter-white;
-    }
-
-    &:hover:not(.is-active){
-        filter: panel.$filter-red;
-        transition: 250ms;
-    }
+    width: 20px;
+    height: 20px;
 }
 
 .title{
@@ -147,27 +90,23 @@ button, input{
     }
 }
 
-.message{
-    align-self: start;
+.mobile{
+    display: block;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2.5rem;
-
-    background-color: $header-background;
-    border-radius: 20px;
-
-    @media (max-width: $tablet-breakpoint - 1px) {
-        padding: 1.5rem;
-        width: 100%;
-    }
-
-    @media (min-width: $tablet-breakpoint) {
-        width: 600px;
-        padding: 2rem;
+    @media (min-width: $desktop-breakpoint) {
+        display: none;
     }
 }
+
+.desktop{
+    display: none;
+
+    @media (min-width: $desktop-breakpoint) {
+        display: block;
+    }
+}
+
+
 
 
 

@@ -2,26 +2,35 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Api\IriConverterInterface;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class AuthController extends AbstractController
 {
-    #[Route('/login', name: 'app_auth_login')]
-    public function logIn(AuthenticationUtils $authenticationUtils): Response
+    #[Route('/login', name: 'app_auth_login', methods: ['POST'])]
+    public function loginAction(IriConverterInterface $iriConverter, #[CurrentUser] ?User $user): Response
     {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+        if(!$user) {
+            return $this->json([
+                'error' => 'Invalid login request',
+            ], 401);
+        }
 
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        return new Response(null, 204, [
+            'Location' => $iriConverter->getIriFromResource($user),
+        ]);
+    }
 
-        return $this->render('account/authentication/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error
+    #[Route('/login', name: 'app_login' , methods: ['GET'])]
+    public function login(): Response
+    {
+        return $this->render('account/login.html.twig', [
+            'isDemo' => $this->getParameter('app.demo')
         ]);
     }
 
